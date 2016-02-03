@@ -1,0 +1,79 @@
+﻿@model RealEstate.Models.Estates
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("EditEstate", "Estates", FormMethod.Post, new { @class = "well span", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.id)
+    <br>
+    <label style="width:100px;">Манагер</label>
+    @Html.DropDownListFor(model => model.Users.id, Model.listUser as SelectList, new { style = "width:200px" })
+    @Html.ValidationMessageFor(model => model.Users.id, "", new { @class = "text-danger" })
+    <br>
+    <label style="width:100px;">Область</label>
+    @Html.EditorFor(model => model.region)
+    <br>
+    <label style="width:100px;">Город</label>
+    @Html.EditorFor(model => model.city)
+    <br>
+    <label style="width:100px;">Район</label>
+    @Html.EditorFor(model => model.district)
+    <br>
+    <label style="width:100px;">Body</label>
+    @Html.TextAreaFor(model => model.descr, 5, 50, null)
+    @Html.ValidationMessageFor(model => model.descr, "", new { @class = "text-danger" })
+
+    @Html.Hidden("Id", @Model.id)
+    <input type="file" name="upload" /><br>
+    <input type="submit" value="Загрузить" />
+}
+<html>
+    <head>
+        <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+        <style>
+            .carousel-inner > .item > img,
+            .carousel-inner > .item > a > img {
+                width: 40%;
+                margin: auto;
+            }
+        </style>
+    </head>
+<body>
+    
+    <div ng-app="appRealEstate" ng-controller="estateEditController">
+        <span ng-init="getImageList(@Model.id)"></span>
+        <div id="dynamiccontentcarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+
+            <ol class="carousel-indicators">
+                <li style="align-items:center" data-target="#dynamiccontentcarousel" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" data-slide-to="{{$index}}"></li>
+            </ol>
+
+            <div class="carousel-inner" role="listbox">
+                <div class="item" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" width="200">
+                    <img data-ng-src="{{slide}}" alt=" carousel {{$index}}" />
+                </div>
+            </div>
+            <!--
+            <div class="span6">
+                Interval, in milliseconds:
+                <input type="number" data-ng-model="myInterval">
+                <br />
+                Enter a negative number to stop the interval.
+            </div>
+            /!-->
+            <a class="left carousel-control" href="#dynamiccontentcarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#dynamiccontentcarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</body>
+
+</html>
+
+

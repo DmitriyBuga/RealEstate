@@ -1,0 +1,143 @@
+﻿@model RealEstate.Models.BudgetViewModel
+
+@{
+    ViewBag.Title = "UserBudget";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <title>Вход в систему</title>
+</head>
+<body>
+    <div class="well span8">
+        @foreach (var yModel in Model.yearBudgets)
+        {
+            <table class="table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th>Год</th>
+                    <th>Доходы</th>
+                    <th>Расходы</th>
+                    <th>Открыть</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => yModel.nYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => yModel.nRevenue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => yModel.nCost)
+                    </td>
+                    <td>
+                        <button id="switch" class="btn btn - primary pull - right" onclick="ShowByMonth(@yModel.nYear)">+</button>
+                    </td>
+                </tr>
+                <tr rowspan="4" name=@yModel.nYear style="display:none">
+                    <th colspan="5">Данные по месяцам @yModel.nYear.ToString() года </th>
+                </tr>
+                <tr name=@yModel.nYear style="display:none">
+                    <th>Год</th>
+                    <th>Месяц</th>
+                    <th>Доходы</th>
+                    <th>Расходы</th>
+                    <th>Открыть</th>
+                </tr>
+                @foreach (var mModel in Model.MonthBudgets.Where(x => x.nYear == yModel.nYear))
+                {
+                    <tr class="swtable" name=@yModel.nYear style="display:none">
+                        <td>
+                            @Html.DisplayFor(m => mModel.nYear)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => mModel.nMonth)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => mModel.nRevenue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => mModel.nCost)
+                        </td>
+                        <td>
+                            <button id="switch" class="btn btn - primary pull - right" onclick="ShowByDay(@mModel.nYear, @mModel.nMonth)">+</button>
+                        </td>
+                    </tr>
+                    <tr name=@mModel.nYear.ToString() + @mModel.nMonth.ToString().PadLeft(2) style="display:none">
+                        <th>Год</th>
+                        <th>Месяц</th>
+                        <th>День</th>
+                        <th>Доходы</th>
+                        <th>Расходы</th>
+                    </tr>
+                    foreach (var dModel in Model.Budgets.Where(x => x.Date.Year == yModel.nYear && x.Date.Month == mModel.nMonth))
+                    {
+                        <tr class="swtable" name=@mModel.nYear.ToString() + @mModel.nMonth.ToString().PadLeft(2) style="display:none">
+                            <td>
+                                @Html.DisplayFor(m => mModel.nYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => mModel.nMonth)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => dModel.Date.Day)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => mModel.nRevenue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => mModel.nCost)
+                            </td>
+                        </tr>
+                    }
+
+                }
+            
+                 </tbody>
+            </table>
+        }
+        <script type="text/javascript">
+            function ShowByMonth(nYear) {
+                elems = document.getElementsByName(nYear)
+                for (var i = 0; i <= elems.length; i++) {
+                    if (elems[i] != null) {
+                        if (elems[i].style.display == "none") {
+                            elems[i].style.display = '';
+                        }
+                        else {
+                            elems[i].style.display = "none"
+                        }
+                    }
+
+                }
+            }
+            function ShowByDay(nYear, nMonth) {
+                var str = nYear;
+                var pad = "  ";
+                str = str + pad.substring(0, pad.length - str.length) + nMonth
+                alert(str);
+                elems = document.getElementsByName(str)
+                for (var i = 0; i <= elems.length; i++) {
+                    if (elems[i] != null) {
+                        if (elems[i].style.display == "none") {
+                            elems[i].style.display = '';
+                        }
+                        else {
+                            elems[i].style.display = "none"
+                        }
+                    }
+
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>
+
+

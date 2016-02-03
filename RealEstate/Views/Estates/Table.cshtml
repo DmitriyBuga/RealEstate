@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="estatesTblController" class="well-span8">
+    <br />
+    <p class="h4">Доступная недвижимость</p>
+    <ul class="inline">
+        <li>
+            <div class="alert alert-info" style="width:300px">
+                <h4>Total filtered estates: {{filtered.length}}</h4>
+            </div>
+        </li>
+        <li>
+            <div class="btn-group" data-ng-class="{open: open}">
+                <button class="btn">filtered by manager</button>
+                <button class="btn dropdown-toggle" data-ng-click="open=!open">
+                        <span class="caret"></span>
+                    </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li>
+                        <a data-ng-click="checkAll('listUser','selectedUser')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
+
+                    </li>
+                    <li>
+                        <a data-ng-click="selectedUser=[];"><i class="glyphicon glyphicon-unchecked"></i>  Uncheck All</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li data-ng-repeat="user in listUser"><a data-ng-click="setSelected(user.id,'selectedUser')">{{user.name}}<span data-ng-class="isChecked(user.id,'selectedUser')"></span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-group" data-ng-class="{open: openCity}">
+                <button class="btn">filtered by City</button>
+                <button class="btn dropdown-toggle" data-ng-click="openCity=!openCity">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                    <li>
+                        <a data-ng-click="checkAll('listCity','selectedCity')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
+
+                    </li>
+                    <li>
+                        <a data-ng-click="selectedCity=[];"><i class="glyphicon glyphicon-unchecked"></i>  Uncheck All</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li data-ng-repeat="city in listCity">
+                        <a data-ng-click="setSelected(city.id,'selectedCity')">{{city.name}}<span data-ng-class="isChecked(city.id,'selectedCity')"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <div class="divList">
+        <table cellpadding="12" class="table table-bordered table-hover">
+            <tr>
+                <td>
+                    <a href="#" ng-click="sortType = 'ID'; sortReverse = !sortReverse">
+                        User
+                        <span ng-show="sortType == 'ID' && !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
+                        <span ng-show="sortType == 'ID' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
+                    </a>
+                </td>
+                <td>
+                    ID
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Region
+                </td>
+                <td>
+                    City
+                </td>
+                <td>
+                    Street
+                </td>
+                <td>
+                    Action
+                </td>
+            </tr>v
+            <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
+                <td>
+                    {{estate.user_id}}
+                </td>
+                <td>
+                    {{estate.id}}
+                </td>
+                <td>
+                    {{estate.descr}}
+                </td>
+                <td>
+                    {{estate.region}}
+                </td>
+                <td>
+                    {{estate.city}}
+                </td>
+                <td>
+                    {{estate.street}}
+                </td>
+                <td>
+                    <a href="/Estates/EditEstate/{{estate.id}}" class="btn btn-default">Edit</a>
+                    <span ng-click="deleteEstate(estate)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+</div>
+</div>
+
+

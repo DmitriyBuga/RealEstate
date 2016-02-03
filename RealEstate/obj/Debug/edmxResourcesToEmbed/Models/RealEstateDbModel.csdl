@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RealEstateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="RealEstateEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cities" EntityType="RealEstateModel.Cities" />
+    <EntitySet Name="Customers" EntityType="RealEstateModel.Customers" />
+    <EntitySet Name="Districts" EntityType="RealEstateModel.Districts" />
+    <EntitySet Name="Estates" EntityType="RealEstateModel.Estates" />
+    <EntitySet Name="Regions" EntityType="RealEstateModel.Regions" />
+    <EntitySet Name="Role" EntityType="RealEstateModel.Role" />
+    <EntitySet Name="Streets" EntityType="RealEstateModel.Streets" />
+    <EntitySet Name="Users" EntityType="RealEstateModel.Users" />
+    <AssociationSet Name="FK_Estates_Users" Association="RealEstateModel.FK_Estates_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Estates" EntitySet="Estates" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Cities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="manager_id" Type="Int32" Nullable="false" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="middlename" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Districts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="city_id" Type="Int32" Nullable="false" />
+    <Property Name="region_id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Estates">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="cust_id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" Nullable="false" />
+    <Property Name="manager_id" Type="Int32" Nullable="false" />
+    <Property Name="type_op" Type="Int32" />
+    <Property Name="type_estate" Type="Int32" />
+    <Property Name="descr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="floors" Type="Int32" />
+    <Property Name="floor" Type="Int32" />
+    <Property Name="rooms" Type="Int32" />
+    <Property Name="square" Type="Single" />
+    <Property Name="price" Type="Single" />
+    <Property Name="region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="city" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="district" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="street" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="building" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="apt" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="city_id" Type="Int32" />
+    <Property Name="region_id" Type="Int32" />
+    <Property Name="datainput" Type="DateTime" Precision="0" />
+    <Property Name="dstart" Type="DateTime" Precision="0" />
+    <Property Name="dend" Type="DateTime" Precision="0" />
+    <Property Name="isempty" Type="Boolean" />
+    <NavigationProperty Name="Users" Relationship="RealEstateModel.FK_Estates_Users" FromRole="Estates" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Regions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Streets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="position" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="department_id" Type="Int32" />
+    <Property Name="role_id" Type="Int32" Nullable="false" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_Estates_Users" FromRole="Users" ToRole="Estates" />
+  </EntityType>
+  <Association Name="FK_Estates_Users">
+    <End Type="RealEstateModel.Users" Role="Users" Multiplicity="1" />
+    <End Type="RealEstateModel.Estates" Role="Estates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Estates">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
