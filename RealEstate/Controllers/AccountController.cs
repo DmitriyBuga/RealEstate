@@ -48,7 +48,7 @@ namespace RealEstate.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("UserBudget", "Budget");
+                        return RedirectToAction("Table", "Estates");
                     }
                 }
                 else
