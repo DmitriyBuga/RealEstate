@@ -42,7 +42,7 @@
         <div class="well row" style="width:100%">
             <div ng-app="appRealEstate" ng-controller="estateEditController">
                 <span ng-init="getImageList(@Model.id)"></span>
-                <div id="dynamiccontentcarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
+                <div id="dynamiccontentcarousel" class="carousel slide" data-ride="carousel" data-interval="2000" >
 
                     <ol class="carousel-indicators">
                         <li style="align-items:center" data-target="#dynamiccontentcarousel" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" data-slide-to="{{$index}}"></li>
@@ -65,7 +65,7 @@
 
                     <div class="m-carousel-controls m-carousel-pagination" style="align-self:center;width:100%">
 
-                        <a class="m-carousel-controls" href="#dynamiccontentcarousel" role="button" data-slide="delete" style="align-items:center">
+                        <a class="m-carousel-controls" ng-click="deleteImage(@Model.id)" href="#" role="button" data-slide="next" style="align-items:center">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             <span class="sr-only">delete</span>
                         </a>
@@ -77,13 +77,18 @@
                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
-                        <a class="m-carousel-controls" href="#dynamiccontentcarousel" role="button" data-slide="append" style="align-items:center">
-                            <input type="file" name="upload" class="btn btn-default" />
-                        </a>
+                        
+                        
                     </div>
                 </div>
+                <div>
+                    <input onchange="angular.element(this).scope().file_changed(this, @Model.id)"
+                           type="file" accept="image/*">
+                </div>    
             </div>
+            
         </div>
+        
         <div class="well row" style="width:100%">
             @Html.Hidden("Id", @Model.id)
             <input type="submit" value="Сохранить" />

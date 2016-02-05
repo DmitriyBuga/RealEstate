@@ -11,6 +11,17 @@
             dataType: "json"
         });
     }
+    this.deleteImage = function (image, estateId) {
+        var responce = $http({
+            method: "post",
+            url: "/Estates/DeleteImage",
+            params: {
+                image: image,
+                Id: JSON.stringify(estateId)
+            }
+        })
+    }
+
     this.getImageList = function (estateId) {
         var responce = $http({
             method: "post",
@@ -24,7 +35,7 @@
     this.getSlides = function (estateId) {
         var responce = $http({
             method: "post",
-            urs: "/Estates/GetSlides",
+            url: "/Estates/GetSlides",
             params: {
                 Id: JSON.stringify(estateId)
             }

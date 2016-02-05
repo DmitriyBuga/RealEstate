@@ -48,6 +48,11 @@ namespace RealEstate.Controllers
             return estatesJSON;
             //return Json(stat, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult DeleteImage(string image, int Id)
+        {
+            System.IO.File.Delete(Server.MapPath("~" + image));
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetAllEstates()
         {
             return Json(CreateJSONEstate(repository.Estates), JsonRequestBehavior.AllowGet);
@@ -142,6 +147,51 @@ namespace RealEstate.Controllers
                 upload.SaveAs(Server.MapPath("~/Files/Images/" + Id.ToString() + "/" + fileName));
             }
             return EditEstate(Id);
+        }
+        public string FileUpload()
+        {
+            int iUploadedCnt = 0;
+            int id = 1;
+            // DEFINE THE PATH WHERE WE WANT TO SAVE THE FILES.
+            System.Web.HttpFileCollection hfc = System.Web.HttpContext.Current.Request.Files;
+            id = Convert.ToInt32(System.Web.HttpContext.Current.Request["estateId"]);
+            for (int iCnt = 0; iCnt <= hfc.Count - 1; iCnt++)
+            {
+                
+                System.Web.HttpPostedFileBase hpf = Request.Files[iCnt];
+                //System.Web.HttpPostedFile hpf = hfc[iCnt];
+
+                if (hpf.ContentLength > 0)
+                {
+                    string fileName = System.IO.Path.GetFileName(hpf.FileName);
+                    string userDir = Server.MapPath("~" + _localImagePath + id.ToString() + "/");
+                    System.IO.Directory.CreateDirectory(userDir);
+                    if (System.IO.Directory.Exists(userDir))
+                    {
+                        hpf.SaveAs(userDir + fileName);   
+                    }
+
+                    /*
+                    // CHECK IF THE SELECTED FILE(S) ALREADY EXISTS IN FOLDER. (AVOID DUPLICATE)
+                    if (!System.IO.File.Exists(sPath + System.IO.Path.GetFileName(hpf.FileName)))
+                    {
+                        // SAVE THE FILES IN THE FOLDER.
+                        hpf.SaveAs(sPath + System.IO.Path.GetFileName(hpf.FileName));
+                        iUploadedCnt = iUploadedCnt + 1;
+                    }
+                    */
+                }
+            }
+
+            // RETURN A MESSAGE (OPTIONAL).
+            if (iUploadedCnt > 0)
+            {
+                return iUploadedCnt + " Files Uploaded Successfully";
+            }
+            else
+            {
+                return "Upload Failed";
+            }
         }
 
     }
