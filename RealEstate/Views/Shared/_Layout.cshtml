@@ -23,13 +23,19 @@
     {
         <div style="width:100%;height:4em;background-color:black">
             <div style="float:left;padding:15px; font-size: 18px;">
-                @Html.ActionLink("Log in", "LogIn", "Account")
+                @Html.ActionLink("Войти", "LogIn", "Account")
             </div>
             <div style="float:left;padding:15px;font-size: 18px">
-                @Html.ActionLink("Home", "Index", "Home")
+                @Html.ActionLink("Недвижимость", "Table", "Estates")
             </div>
             <div style="float:left;padding:15px;font-size: 18px;">
-                @Html.ActionLink("Create query", "CreateQuery", "Custom")
+                @Html.ActionLink("Справочник областей", "Regions", "Directories")
+            </div>
+            <div style="float:left;padding:15px;font-size: 18px;">
+                @Html.ActionLink("Справочник городов", "Cities", "Directories")
+            </div>
+            <div style="float:left;padding:15px;font-size: 18px;">
+                @Html.ActionLink("Справочник улиц", "Streets", "Directories")
             </div>
         </div>
     }

@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [RealEstate]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Database [RealEstate]    Script Date: 08.02.2016 17:01:27 ******/
 CREATE DATABASE [RealEstate]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -75,7 +75,7 @@ ALTER DATABASE [RealEstate] SET TARGET_RECOVERY_TIME = 0 SECONDS
 GO
 USE [RealEstate]
 GO
-/****** Object:  Table [dbo].[Cities]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Cities]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -83,6 +83,7 @@ GO
 CREATE TABLE [dbo].[Cities](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
+	[region_id] [int] NOT NULL,
  CONSTRAINT [PK_Cities] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
@@ -90,7 +91,7 @@ CREATE TABLE [dbo].[Cities](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Customers]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Customers]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -111,7 +112,7 @@ CREATE TABLE [dbo].[Customers](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Districts]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Districts]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -128,7 +129,7 @@ CREATE TABLE [dbo].[Districts](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Estates]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Estates]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -165,7 +166,7 @@ CREATE TABLE [dbo].[Estates](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Regions]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Regions]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -180,7 +181,7 @@ CREATE TABLE [dbo].[Regions](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,22 +196,23 @@ CREATE TABLE [dbo].[Role](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Streets]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Streets]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Streets](
-	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](100) NOT NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](100) NOT NULL,
+	[city_id] [int] NOT NULL,
  CONSTRAINT [PK_Streets] PRIMARY KEY CLUSTERED 
 (
-	[Id] ASC
+	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 03.02.2016 13:56:29 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 08.02.2016 17:01:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -243,10 +245,25 @@ INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department
 INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department_id], [role_id], [firstname], [lastname]) VALUES (1, N'user1', N'saUser', N'123qwe', N'0', NULL, 2, NULL, NULL)
 INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department_id], [role_id], [firstname], [lastname]) VALUES (2, N'sa11', N'sa11', N'123qwe', N'', NULL, 2, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Users] OFF
+ALTER TABLE [dbo].[Cities]  WITH CHECK ADD  CONSTRAINT [FK_Cities_Cities] FOREIGN KEY([region_id])
+REFERENCES [dbo].[Regions] ([id])
+GO
+ALTER TABLE [dbo].[Cities] CHECK CONSTRAINT [FK_Cities_Cities]
+GO
+ALTER TABLE [dbo].[Districts]  WITH CHECK ADD  CONSTRAINT [FK_Districts_Cities] FOREIGN KEY([city_id])
+REFERENCES [dbo].[Cities] ([id])
+GO
+ALTER TABLE [dbo].[Districts] CHECK CONSTRAINT [FK_Districts_Cities]
+GO
 ALTER TABLE [dbo].[Estates]  WITH CHECK ADD  CONSTRAINT [FK_Estates_Users] FOREIGN KEY([user_id])
 REFERENCES [dbo].[Users] ([id])
 GO
 ALTER TABLE [dbo].[Estates] CHECK CONSTRAINT [FK_Estates_Users]
+GO
+ALTER TABLE [dbo].[Streets]  WITH CHECK ADD  CONSTRAINT [FK_Streets_Cities] FOREIGN KEY([city_id])
+REFERENCES [dbo].[Cities] ([id])
+GO
+ALTER TABLE [dbo].[Streets] CHECK CONSTRAINT [FK_Streets_Cities]
 GO
 USE [master]
 GO

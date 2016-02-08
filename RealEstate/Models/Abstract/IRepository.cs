@@ -11,6 +11,10 @@ namespace RealEstate.Models.Abstract
         IQueryable<Users> Users { get; }
         IQueryable<Role> Roles { get; }
         IQueryable<Estates> Estates { get; }
+        IQueryable<Regions> Regions { get; }
+        IQueryable<Cities> Cities { get; }
+        IQueryable<Streets> Streets { get; }
+        IQueryable<Districts> Districts { get; }
         void CreateNewUser(Users user);
     }
 }

@@ -14,7 +14,10 @@ namespace RealEstate.Models
     
     public partial class Streets
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public int city_id { get; set; }
+    
+        public virtual Cities Cities { get; set; }
     }
 }

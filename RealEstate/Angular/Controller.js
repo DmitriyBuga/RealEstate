@@ -54,15 +54,9 @@
             //alert('Error in getting records');
         });
     }
-    $scope.editEstate = function (estate) {
-        var getData = angularService.editEstate(estate);
-        $location.path("Estates/EditEstate");
-        getData.then(function (estate) {
-            $scope.estate = estate.data
-        },
-        function () {
-            alert('Error in getting records');
-        });
+    $scope.deleteEstate = function (estateId) {
+        var getData = angularService.deleteEstate(estateId);
+        $scope.GetAllEstates();
     }
     function GetEstatesByUser(id) {
         var getData = angularService.GetEstatesByUser(id);
@@ -87,35 +81,65 @@
         }
     }
 });
+app.controller("dirController", function ($scope, angularService) {
+    $scope.setRegions = function () {
+        var getData = angularService.getRegions();
+        getData.then(function (regions) {
+            $scope.regions = regions.data;
+        });
+    }
+    $scope.setCities = function () {
+        var getData = angularService.getCities(regionId);
+        getData.then(function (cities) {
+            $scope.cities = cities.data;
+        });
+    }
+    $scope.setDistricts = function () {
+        var getData = angularService.getDistricts(cityId);
+        getData.then(function (districts) {
+            $scope.districts = districts.data;
+        });
+    }
+    $scope.setStreets = function () {
+        var getData = angularService.getStreets(cityId);
+        getData.then(function (streets) {
+            $scope.streets = streets.data;
+        });
+    }
+        
+
+});
 app.controller("estateEditController", function ($scope, angularService) {
     $scope.myInterval = 500;
     $scope.uploadFiles = [];
     $scope.attachment;
     $scope.slides = [];
-    
-    $scope.getSlides = function (estateId) {
-        var getData = angularService.getSlides(estateId);
+    $scope.estateId = 0
+    $scope.setCurrentEstateId = function (estateId) {
+        $scope.estateId = estateId;
+    }
+    $scope.getSlides = function () {
+        var getData = angularService.getSlides($scope.estateId);
         getData.then(function (images) {
             $scope.slides = images.data;
         });
     }
-    alert("33");
-    $scope.deleteImage = function (estateId) {
+    $scope.deleteImage = function () {
         var currentIndex = $('div.active').index();
+        //debugger
         if (currentIndex >= 0)
         {
-            
             var image = $scope.slides[currentIndex]
-            //$scope.slides.splice(currentIndex, 1);
-            var getData = angularService.deleteImage(image, estateId)
-            $scope.getImageList(estateId);
+            var estateId = $scope.estateId;
+            angularService.deleteImage(image, estateId);
+            $scope.slides.splice(currentIndex, 1);
+            $scope.slides[0].active = true;
+            //$scope.getImageList($scope.estateId);
         }
-        
         return "";
     }
-    $scope.getImageList = function (estateId) {
-        
-        var getData = angularService.getImageList(estateId);
+    $scope.getImageList = function () {
+        var getData = angularService.getImageList($scope.estateId);
         getData.then(function (images) {
             $scope.slides = images.data;
         });
@@ -124,15 +148,15 @@ app.controller("estateEditController", function ($scope, angularService) {
         return "";
     }
     
-    $scope.file_changed = function (element, estateId) {
+    $scope.file_changed = function (element) {
 
         $scope.$apply(function (scope) {
             var data = new FormData();
-
+            //debugger
             for (var i in element.files) {
                 data.append("uploadedFile", element.files[i]);
             }
-            data.append("estateId", JSON.stringify(estateId))
+            data.append("estateId", JSON.stringify($scope.estateId))
             
 
             // ADD LISTENERS.
@@ -157,16 +181,18 @@ app.controller("estateEditController", function ($scope, angularService) {
             reader.readAsDataURL(photofile);
             alert(reader)
             */
+            
         });
         //$scope.slides.pop(element.files[0])
-        $scope.getImageList(estateId);
-        alert("22");
+        
     };
     
 
     // CONFIRMATION.
     function transferComplete(e) {
-  //      alert("Files uploaded successfully.");
+        //alert("Files uploaded successfully.");
+        //alert($scope.estateId);
+        $scope.getImageList($scope.estateId);
     }
      
 });

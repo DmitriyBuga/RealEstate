@@ -1,19 +1,48 @@
 ﻿app.service("angularService", function ($http) {
+    this.getRegions = function () {
+        return $http.get("/Directories/GetAllRegions")
+    }
+    this.getCities = function (regionId) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/GetCities",
+            params: { regionId: JSON.stringify(regionId) },
+            dataType:"JSON"
+        });
+        return responce;
+    }
+    this.getStreets = function (cityId) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/GetStreets",
+            params: { regionId: JSON.stringify(cityId) },
+            dataType: "JSON"
+        });
+        return responce;
+    }
+    this.getDistricts = function (cityId) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/GetDistricts",
+            params: { regionId: JSON.stringify(cityId) },
+            dataType: "JSON"
+        });
+        return responce;
+    }
     this.GetAllEstates = function () {
         return $http.get("/Estates/GetAllEstates");
-    };    
-    this.editEstate = function (estate) {
-        alert(estate.ID);
+    };
+    this.deleteEstate = function (estateId) {
         var responce = $http({
-            method: "post",
-            url: "Estates/EditEstate",
-            params: { iD: JSON.stringify(estate.ID) },
+            method: "GET",
+            url: "/Estates/DeleteEstate",
+            params: { id: JSON.stringify(estateId) },
             dataType: "json"
         });
     }
     this.deleteImage = function (image, estateId) {
         var responce = $http({
-            method: "post",
+            method: "GET",
             url: "/Estates/DeleteImage",
             params: {
                 image: image,
@@ -21,7 +50,6 @@
             }
         })
     }
-
     this.getImageList = function (estateId) {
         var responce = $http({
             method: "post",

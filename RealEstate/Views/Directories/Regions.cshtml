@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Regions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="dirController">
+    <div class="well row" style="width:50%">
+        <span ng-init="setRegions()"></span>
+        
+        <br />
+        <p class="h4">Справочник областей</p>
+        <table cellpadding="3" class="table table-bordered table-hover">
+            <tr>
+                <td width="20%"><b>Идентификатор</b></td>
+                <td><b>Наименование области</b></td>
+                <td><b></b></td>
+            </tr>
+            <tr ng-repeat="region in regions">
+                <td>{{region.id}}</td>
+                <td>{{region.name}}</td>
+                <td>
+                    <a href="/Estates/EditEstate/{{region.id}}" class="btn btn-default">Edit</a>
+                    <span ng-click="delete(region)" class="btn btn-danger">Delete</span>
+                </td>
+            </tr>
+        </table>
+        <b
+    </div>
+</div>
+

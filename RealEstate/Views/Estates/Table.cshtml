@@ -54,14 +54,14 @@
         <table cellpadding="12" class="table table-bordered table-hover">
             <tr>
                 <td>
+                    Manager
+                </td>
+                <td>
                     <a href="#" ng-click="sortType = 'ID'; sortReverse = !sortReverse">
-                        User
+                        ID
                         <span ng-show="sortType == 'ID' && !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
                         <span ng-show="sortType == 'ID' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
                     </a>
-                </td>
-                <td>
-                    ID
                 </td>
                 <td>
                     Description
@@ -76,12 +76,21 @@
                     Street
                 </td>
                 <td>
+                    Floor/Floors
+                </td>
+                <td>
+                    Rooms
+                </td>
+                <td>
+                    Square
+                </td>
+                <td>
                     Action
                 </td>
             </tr>v
             <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
                 <td>
-                    {{estate.user_id}}
+                    {{estate.user_name}}
                 </td>
                 <td>
                     {{estate.id}}
@@ -99,8 +108,18 @@
                     {{estate.street}}
                 </td>
                 <td>
+                    {{estate.floor}}/{{estate.floors}}
+                </td>
+                <td>
+                    {{estate.rooms}}
+                </td>
+                <td>
+                    {{estate.square}}
+                </td>
+                
+                <td>
                     <a href="/Estates/EditEstate/{{estate.id}}" class="btn btn-default">Edit</a>
-                    <span ng-click="deleteEstate(estate)" class="btn btn-danger">Delete</span>
+                    <span ng-click="deleteEstate(estate.id)" class="btn btn-danger">Delete</span>
                 </td>
             </tr>
         </table>

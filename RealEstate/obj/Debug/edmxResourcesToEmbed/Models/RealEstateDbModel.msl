@@ -4,6 +4,7 @@
     <EntitySetMapping Name="Cities">
       <EntityTypeMapping TypeName="RealEstateModel.Cities">
         <MappingFragment StoreEntitySet="Cities">
+          <ScalarProperty Name="region_id" ColumnName="region_id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
@@ -82,8 +83,9 @@
     <EntitySetMapping Name="Streets">
       <EntityTypeMapping TypeName="RealEstateModel.Streets">
         <MappingFragment StoreEntitySet="Streets">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="city_id" ColumnName="city_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

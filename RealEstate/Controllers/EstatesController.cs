@@ -114,6 +114,10 @@ namespace RealEstate.Controllers
             estate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
             return View(estate);
         }
+        public void DeleteEstate(int id)
+        {
+            repository.DeleteRecord(id, "Estates");
+        }
         [HttpGet]
         public ViewResult EditEstate(int Id)
         {
@@ -129,11 +133,7 @@ namespace RealEstate.Controllers
             estate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
             return View(estate);
         }
-        public PartialViewResult Gallery(int? Id)
-        {
-            //   Server.Files();
-            return PartialView();
-        }
+       
         public JsonResult _UploadImage(string uploadFiles)
         {
             return Json(uploadFiles, JsonRequestBehavior.AllowGet);
