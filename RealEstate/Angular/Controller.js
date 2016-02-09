@@ -1,7 +1,10 @@
 ﻿app.controller("estatesTblController", function ($scope, angularService) {
-    GetAllEstates();
+    
+    $scope.pageSize = 3;
+    $scope.currentPage = 0;
     $scope.selectedUser = [];
     $scope.selectedCity = [];
+    GetAllEstates();
     $scope.sortReverse = false;
     $scope.sortType = 'ID'
     //$scope.filtered = 0;//$scope.estates.length;
@@ -25,6 +28,46 @@
         id: 3,
         name: 'Google'
     }];
+    $scope.paged = function (valLists, pageSize) {
+        
+        retVal = [];
+        for (var i = 0; i < valLists.length; i++){
+            if (i % pageSize === 0) {
+                retVal[Math.floor(i / pageSize)] = [valLists[i]];
+            } else {
+                retVal[Math.floor(i / pageSize)].push(valLists[i]);
+            }
+        }
+        return retVal;
+    }
+    $scope.pagination = function () {
+        
+        $scope.itemsByPage = $scope.paged($scope.estates, $scope.pageSize)
+        alert($scope.itemsByPage[0]);
+    }
+    $scope.setPage = function () {
+        $scope.currentPage = this.n;
+    }
+    $scope.firstPage = function () {
+        $scope.currentPage = 0;
+    };
+    $scope.range = function (input, total) {
+        var ret = [];
+        if (!total) {
+            total = input;
+            input = 0;
+        }
+        for (var i = input; i < total; i++) {
+            if (i != 0 && i != total - 1) {
+                ret.push(i);
+            }
+        }
+        return ret;
+    };
+
+    $scope.lastPage = function () {
+        $scope.currentPage = $scope.itemsByPage.length - 1;
+    };
     $scope.setSelected = function (id, sList) {
         
         if (_.contains($scope[sList], id)) {
@@ -49,6 +92,8 @@
         var getData = angularService.GetAllEstates();
         getData.then(function (est) {
             $scope.estates = est.data;
+            
+            $scope.pagination();
             //$scope.filtered = $scope.estates.length;
         }, function () {
             //alert('Error in getting records');
@@ -56,7 +101,10 @@
     }
     $scope.deleteEstate = function (estateId) {
         var getData = angularService.deleteEstate(estateId);
-        $scope.GetAllEstates();
+        var currentIndex = _.findIndex($scope.estates, { id: estateId });
+        $scope.estates.splice(currentIndex, 1);
+        $scope.pagination();
+        //$scope.GetAllEstates();
     }
     function GetEstatesByUser(id) {
         var getData = angularService.GetEstatesByUser(id);

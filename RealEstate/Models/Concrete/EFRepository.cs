@@ -1,20 +1,17 @@
 ﻿using RealEstate.Models.Abstract;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Web;
 
 namespace RealEstate.Models.Concrete
 {
+   
     public class EFRepository : IRepository
     {
         private EFDbContext dbContext;
-        private Dictionary<string, object> tableObjects;
-        public void EFDbContext()
-        {
-            tableObjects.Add("Regions", Regions);
-            tableObjects.Add("Cities", Cities);
-        }
         public EFRepository(EFDbContext context)
         {
             dbContext = context;
@@ -52,12 +49,22 @@ namespace RealEstate.Models.Concrete
             dbContext.Users.Add(user);
             dbContext.SaveChanges();
         }
-        public void DeleteRecord<T>(int id)
+        public void DeleteRecord<T>(T dbEntry)
         {
-            dbContext.Streets.FirstOrDefault();
-            var dbSet = dbContext.Set(typeof(T));
-            //T dbentry = dbSet.FirstOrDefault(x => x.id == id);
-            //dbSet.Remove(dbentry);
+            DbSet dbSet = dbContext.Set(typeof(T));
+            dbSet.Remove(dbEntry);
+            dbContext.SaveChanges();
+        }
+        public void CreateRecord<T>(T dbEntry)
+        {
+            DbSet dbSet = dbContext.Set(typeof(T));
+            dbSet.Add(dbEntry);
+            dbContext.SaveChanges();
+        }
+        public void UpdateRecord<T>(T dbEntry)
+        {
+            DbSet dbSet = dbContext.Set(typeof(T));
+            dbContext.SaveChanges();
         }
     }
 }

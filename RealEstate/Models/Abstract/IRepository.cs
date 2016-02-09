@@ -1,5 +1,7 @@
-﻿using System;
+﻿using RealEstate.Models.Concrete;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +18,8 @@ namespace RealEstate.Models.Abstract
         IQueryable<Streets> Streets { get; }
         IQueryable<Districts> Districts { get; }
         void CreateNewUser(Users user);
+        void DeleteRecord<T>(T dbEntry);
+        void CreateRecord<T>(T dbEntry);
+        void UpdateRecord<T>(T dbEntry);
     }
 }

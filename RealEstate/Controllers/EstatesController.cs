@@ -116,7 +116,7 @@ namespace RealEstate.Controllers
         }
         public void DeleteEstate(int id)
         {
-            repository.DeleteRecord(id, "Estates");
+            repository.DeleteRecord<Estates>(repository.Estates.FirstOrDefault(x=>x.id == id));
         }
         [HttpGet]
         public ViewResult EditEstate(int Id)
