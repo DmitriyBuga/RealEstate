@@ -4,27 +4,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div ng-controller="dirController">
-    <div class="well row" style="width:50%">
-        <span ng-init="setRegions()"></span>
-        
-        <br />
-        <p class="h4">Справочник областей</p>
-        <table cellpadding="3" class="table table-bordered table-hover">
-            <tr>
-                <td width="20%"><b>Идентификатор</b></td>
-                <td><b>Наименование области</b></td>
-                <td><b></b></td>
-            </tr>
-            <tr ng-repeat="region in regions">
-                <td>{{region.id}}</td>
-                <td>{{region.name}}</td>
-                <td>
-                    <a href="/Estates/EditEstate/{{region.id}}" class="btn btn-default">Edit</a>
-                    <span ng-click="delete(region)" class="btn btn-danger">Delete</span>
-                </td>
-            </tr>
-        </table>
-        <b
+    <span ng-init="setRegions()"></span>
+    <div class="well-row ">
+        <div class="well row col-md-8">
+            <div class="well row col-md-4">
+                <p class="h4"><b>Справочник областей</b></p>
+            </div>
+            <div class="well-row col-md-6">
+                <input type="text" ng-model="name" class="form-control" placeholder="name" />
+            </div>
+            <div class="well-row col-md-2">
+                <span ng-click="add()" type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+            </div>
+            <table cellpadding="3" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td width="20%"><b>Идентификатор</b></td>
+                        <td><b>Наименование области</b></td>
+                        <td><b></b></td>
+                    </tr>
+                </thead>
+
+                <tr ng-repeat="region in regions">
+                    <td>{{region.id}}</td>
+                    <td>{{region.name}}</td>
+                    <td>
+                        <a href="/Estates/EditEstate/{{region.id}}" class="btn btn-default">Edit</a>
+                        <span ng-click="delete(region)" class="btn btn-danger">Delete</span>
+                    </td>
+                </tr>
+            </table>
+        </div>    
     </div>
 </div>
 

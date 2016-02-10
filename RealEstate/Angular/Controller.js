@@ -1,6 +1,6 @@
-﻿app.controller("estatesTblController", function ($scope, angularService) {
+﻿app.controller("estatesTblController", function ($scope,$filter, angularService) {
     
-    $scope.pageSize = 3;
+    $scope.pageSize = 10;
     $scope.currentPage = 0;
     $scope.selectedUser = [];
     $scope.selectedCity = [];
@@ -28,8 +28,26 @@
         id: 3,
         name: 'Google'
     }];
-    $scope.paged = function (valLists, pageSize) {
-        
+    $scope.search = function () {
+        var tempEstates = [];
+        if (!angular.isUndefined($scope.estates) && !angular.isUndefined($scope.selectedUser) && $scope.selectedUser.length > 0) {
+            angular.forEach($scope.selectedUser, function (id) {
+                angular.forEach($scope.estates, function (estate) {
+                    if (angular.equals(estate.user_id, id)) {
+                        tempEstates.push(estate);
+                    }
+                });
+            });
+            $scope.itemsByPage = $scope.paged(tempEstates);
+        }
+        else {
+            $scope.itemsByPage = $scope.paged($scope.estates);
+        }
+        $scope.currentPage = 0;
+        //alert($scope.itemsByPage.length);
+    };
+    $scope.paged = function (valLists) {
+        var pageSize = $scope.pageSize;
         retVal = [];
         for (var i = 0; i < valLists.length; i++){
             if (i % pageSize === 0) {
@@ -42,8 +60,7 @@
     }
     $scope.pagination = function () {
         
-        $scope.itemsByPage = $scope.paged($scope.estates, $scope.pageSize)
-        alert($scope.itemsByPage[0]);
+        $scope.itemsByPage = $scope.paged($scope.estates)
     }
     $scope.setPage = function () {
         $scope.currentPage = this.n;
@@ -75,6 +92,7 @@
         } else {
             $scope[sList].push(id);
         }
+        $scope.search();
         return false;
     }
     $scope.isChecked = function (id, sList) {
@@ -130,6 +148,7 @@
     }
 });
 app.controller("dirController", function ($scope, angularService) {
+    //$scope.add()
     $scope.setRegions = function () {
         var getData = angularService.getRegions();
         getData.then(function (regions) {

@@ -1,4 +1,4 @@
-﻿var app = angular.module("appRealEstate", []).filter('setFilter', [function () {
+﻿var app = angular.module("appRealEstate", [])/*.filter('setFilter', [function () {
     
     return function (estates, selectedUser, selectedCity) {
         if (!angular.isUndefined(estates) && !angular.isUndefined(selectedUser) && selectedUser.length > 0) {
@@ -19,4 +19,4 @@
             return estates;
         }
     };
-}]);
+}]);*/
