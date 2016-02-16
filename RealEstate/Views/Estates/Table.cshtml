@@ -1,40 +1,64 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <style type="text/css">
+        .solo-table-sort-asc > .solo-column-arrow {
+            position: relative;
+            top: 10px;
+            margin-left: 5px;
+            border-color: black transparent;
+            border-style: solid;
+            border-width: 5px 5px 0px 5px;
+            height: 0px;
+            width: 0px;
+        }
+
+        .solo-table-sort-desc > .solo-column-arrow {
+            position: relative;
+            top: -10px;
+            margin-left: 5px;
+            border-color: black transparent;
+            border-style: solid;
+            border-width: 0px 5px 5px 5px;
+            height: 0px;
+            width: 0px;
+        }
+
+        .solo-table-column-cursor {
+            cursor: pointer;
+        }
+    </style>
+</head>
 <div ng-controller="estatesTblController" class="well-span8">
     <br />
     <p class="h4">Доступная недвижимость</p>
     <ul class="inline">
         <li>
-            <div class="alert alert-info" style="width:300px">
-                <h4>Total filtered estates: {{filtered.length}}</h4>
-            </div>
-        </li>
-        <li>
-            <div class="btn-group" data-ng-class="{open: open}">
+            <div class="btn-group" data-ng-class="{open: open}" ng-model="prefixModel">
                 <button class="btn">filtered by manager</button>
-                <button class="btn dropdown-toggle" data-ng-click="open=!open" >
-                        <span class="caret"></span>
-                    </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu" >
+                <button class="btn dropdown-toggle" data-ng-click="open=!open">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                     <li>
                         <a data-ng-click="checkAll('listUser','selectedUser')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
-
                     </li>
                     <li>
                         <a data-ng-click="selectedUser=[];"><i class="glyphicon glyphicon-unchecked"></i>  Uncheck All</a>
                     </li>
                     <li class="divider"></li>
-                    <li data-ng-repeat="user in listUser"><a data-ng-click="setSelected(user.id,'selectedUser')">{{user.name}}<span data-ng-class="isChecked(user.id,'selectedUser')"></span></a>
+                    <li data-ng-repeat="user in listUser">
+                        <a data-ng-click="setSelected(user.id,'selectedUser')">{{user.name}}<span data-ng-class="isChecked(user.id,'selectedUser')"></span></a>
                     </li>
                 </ul>
             </div>
-            <div class="btn-group" data-ng-class="{open: openCity}" >
+            <div class="btn-group" data-ng-class="{open: openCity}">
                 <button class="btn">filtered by City</button>
                 <button class="btn dropdown-toggle" data-ng-click="openCity=!openCity">
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu" >
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                     <li>
                         <a data-ng-click="checkAll('listCity','selectedCity')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
 
@@ -51,51 +75,61 @@
         </li>
     </ul>
     <div class="divList">
+        <div>Page {{pager.currentPage}} of {{pager.foundPages}}. Total items:  {{pager.found}}</div>
+        <input placeholder="Filter by name and address" type="text" name="id" ng-model="filterModel">
+        <select ng-model="prefixModel1" class="input">
+            <option value="">All prefixes</option>
+            <option value="Mrs.">Mrs.</option>
+            <option value="Mr.">Mr.</option>
+            <option value="Ms.">Ms.</option>
+            <option value="Miss">Miss</option>
+        </select>
         <table cellpadding="12" class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <td>
+                    <th sort-by='user_name'>
+
                         Manager
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         <a href="#" ng-click="sortType = 'ID'; sortReverse = !sortReverse">
                             ID
                             <span ng-show="sortType == 'ID' && !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
                             <span ng-show="sortType == 'ID' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
                         </a>
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Description
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Region
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         City
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Street
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Floor/Floors
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Rooms
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Square
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         Action
-                    </td>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @*
-                <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
+                    <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
                 *@
-                <tr ng-repeat="estate in itemsByPage[currentPage]">
-                
+                <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction| filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|customFilter:selectedUser)| pager:pager.currentPage:pager.getOnPage()">
+
                     <td>
                         {{estate.user_name}}
                     </td>
@@ -131,6 +165,12 @@
                 </tr>
             </tbody>
         </table>
+        <div>
+            <a href="" ng-click="gotoFirstPage()">First page | </a>
+            <a href="" ng-click="gotoPrevPage()"> &larr;prev | </a>
+            <a href="" ng-click="gotoNextPage()">next &rarr; | </a>
+            <a href="" ng-click="gotoLastPage()">Last page </a>
+        </div>
         <ul class="pagination pagination-sm">
             <li ng-class="{active:0}">
                 <a href="#" ng-click="firstPage()">First</a>
@@ -142,7 +182,7 @@
                 <a href="#" ng-click="lastPage()">Last</a>
             </li>
         </ul>
-</div>
+    </div>
 </div>
 
 

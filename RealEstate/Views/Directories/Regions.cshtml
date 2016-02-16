@@ -7,35 +7,35 @@
     <span ng-init="setRegions()"></span>
     <div class="well-row ">
         <div class="well row col-md-8">
-            <div class="well row col-md-4">
+            <div class="well row col-md-12">
                 <p class="h4"><b>Справочник областей</b></p>
             </div>
-            <div class="well-row col-md-6">
-                <input type="text" ng-model="name" class="form-control" placeholder="name" />
-            </div>
-            <div class="well-row col-md-2">
-                <span ng-click="add()" type="button" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </span>
-            </div>
+            
             <table cellpadding="3" class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <td width="20%"><b>Идентификатор</b></td>
-                        <td><b>Наименование области</b></td>
-                        <td><b></b></td>
+                        <td width="10%"><b>Код</b></td>
+                        <td width="60%"><b>Наименование области</b></td>
+                        <td width="30%"><b></b></td>
                     </tr>
                 </thead>
 
                 <tr ng-repeat="region in regions">
                     <td>{{region.id}}</td>
-                    <td>{{region.name}}</td>
                     <td>
-                        <a href="/Estates/EditEstate/{{region.id}}" class="btn btn-default">Edit</a>
-                        <span ng-click="delete(region)" class="btn btn-danger">Delete</span>
+                        <input type="text" ng-model="region.name" value={{region.name}} style="width:100%"/>
+                    </td>
+                    <td>
+                        <span ng-click="update(region.id, region.name, $index)" class="btn btn-default">Сохранить</span>
+                        <span ng-click="delete(region.id)" class="btn btn-danger">Удалить</span>
                     </td>
                 </tr>
             </table>
+            <div class="well-row col-md-2">
+                <span ng-click="add('Regions',name)" type="button" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </span>
+            </div>
         </div>    
     </div>
 </div>

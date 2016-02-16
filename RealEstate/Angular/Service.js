@@ -1,4 +1,30 @@
 ﻿app.service("angularService", function ($http) {
+    this.dir_createRecord = function (directory, record) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/CreateRegion",
+            params: { name: record.name },
+            dataType:"JSON"
+        });
+        return responce;
+    }
+    this.dir_delete = function (directory, id) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/DeleteRegion",
+            params: { id: JSON.stringify(id)},
+        });
+        return responce;
+    }
+    this.dir_updateRecord = function (directory, record) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/UpdateRegion",
+            params: { id: record.id, name: record.name },
+        });
+        return responce;
+    }
+    
     this.getRegions = function () {
         return $http.get("/Directories/GetAllRegions")
     }

@@ -1,4 +1,5 @@
-﻿using RealEstate.Models.Abstract;
+﻿using RealEstate.Models;
+using RealEstate.Models.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,24 @@ namespace RealEstate.Controllers
                 return Json(repository.Districts.FirstOrDefault(x => x.city_id == (int)cityId), JsonRequestBehavior.AllowGet);
             else
                 return Json(repository.Districts, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult CreateRegion(string name)
+        {
+            Regions dbEntry = new Regions();
+            dbEntry.name = name;
+            repository.CreateRecord<Regions>(dbEntry);
+            return Json(dbEntry, JsonRequestBehavior.AllowGet);
+        }
+        public void UpdateRegion(int id, string name)
+        {
+            Regions dbEntry = repository.Regions.FirstOrDefault(x => x.id == id);
+            dbEntry.name = name;
+            repository.UpdateRecord<Regions>(dbEntry);
+        }
+        public void DeleteRegion(int id)
+        {
+            Regions dbEntry = repository.Regions.FirstOrDefault(x => x.id == id);
+            repository.DeleteRecord<Regions>(dbEntry);
         }
     }
 }

@@ -4,10 +4,122 @@
     $scope.currentPage = 0;
     $scope.selectedUser = [];
     $scope.selectedCity = [];
+    $scope.filtered = [];
+    $scope.estates = [];
+    $scope.itemsOnPage = 10;
     GetAllEstates();
     $scope.sortReverse = false;
     $scope.sortType = 'ID'
+    $scope.tableHeaders = {};
+    $scope.sortMode = 2;
+    $scope.order = {
+        header: null,
+        direction: false
+    };
+    $scope.setSortMode = function (mode) {
+        if (mode == "" || mode == null)
+            $scope.sortMode = 2;
+        else
+            $scope.sortMode = parseInt(mode);
+    };
+    $scope.orderTableBy = function (header) {
+
+        if ($scope.sortMode == 2) {
+            // это для работы в 2-х режимах ASC и DESC
+            if ($scope.order.header == header && $scope.order.direction == false) {
+                $scope.order.direction = true;
+            }
+            else {
+                $scope.order.header = header;
+                $scope.order.direction = false;
+            }
+        }
+        if ($scope.sortMode == 3) {
+            if ($scope.order.header == header && $scope.order.direction == true) {
+                $scope.order.header = null; // очистка сортировки.
+            }
+            else if ($scope.order.header == header) {
+                $scope.order.direction = true;
+            }
+            else {
+                $scope.order.header = header;
+                $scope.order.direction = false;
+            }
+        }
+
+    };
+    $scope.pager = {
+        onPage: 10, // сколько записей на странице
+        currentPage: 1, // номер текущей страницы
+        found: 0, // найдено записей
+        foundPages: 0, // количество страниц в таблице
+
+        /**
+         * Устанавливает количество записей на странице
+         * @param num int Количество записей на странице
+         */
+        setOnPage: function (num) {
+            alert(num);
+            this.onPage = parseInt(num);
+            this.update($scope.filtered.length);
+        },
+
+        /**
+         * Возвращает количество записей на странице
+         * @returns int
+         */
+        getOnPage: function () {
+            return this.onPage;
+        },
+
+        /**
+         * Обновляет данные пейджера
+         * @param len int Количество записей в таблице (после применения фильтра)
+         */
+        update: function (len) {
+            this.found = len;
+            this.foundPages = Math.ceil(len / this.onPage);
+            this.currentPage = 1;
+        }
+    };
+    /**
+     * Переход на следующую страницу
+     */
+    $scope.gotoNextPage = function () {
+        if ($scope.pager.foundPages == $scope.pager.currentPage)
+            return true;
+        $scope.pager.currentPage++;
+    };
+
+    /**
+     * Переход на первую страницу
+     */
+    $scope.gotoFirstPage = function () {
+        $scope.pager.currentPage = 1;
+    };
+
+    /**
+     * Переход на последнюю страницу
+     */
+    $scope.gotoLastPage = function () {
+        $scope.pager.currentPage = $scope.pager.foundPages;
+    };
+
+    /**
+     * Переход на предыдущую страницу
+     */
+    $scope.gotoPrevPage = function () {
+        if ($scope.pager.currentPage == 1)
+            return true;
+        $scope.pager.currentPage--;
+    };
+
+    // следим за коллекцией отфильтрованных элементов
+    $scope.$watchCollection("filtered", function (list) {
+        $scope.pager.update(list.length);
+    });
     //$scope.filtered = 0;//$scope.estates.length;
+    
     $scope.listCity = [{
         id: 1,
         name: 'Apple'
@@ -148,7 +260,38 @@
     }
 });
 app.controller("dirController", function ($scope, angularService) {
-    //$scope.add()
+    $scope.setDirectory = function (dir) {
+        $scope.directory = dir;
+    }
+    $scope.setValue = function (index) {
+        $scope.regions[index] = 'asassdsd';
+    }
+    $scope.directory = '';
+    $scope.record = { name: '' };
+    $scope.delete = function (id) {
+        angularService.dir_delete("Regions",id);
+        var currentIndex = _.findIndex($scope.regions, { id: id });
+        $scope.regions.splice(currentIndex, 1);
+    }
+    $scope.update = function (id, name, index) {
+        if (id == -1) {
+            var getData = angularService.dir_createRecord('Regions', { id: id, name: name });
+            getData.then(function (regions) {
+                $scope.regions[index] = regions.data;
+            });
+        }
+        else {
+            var getData = angularService.dir_updateRecord('Regions', { id: id, name: name });
+        }
+    }
+    $scope.add = function () {
+        var region = {id:-1, name:''}
+        $scope.regions.push(region);
+    }
+    $scope._add = function (directory, name) {
+        $scope.record.name = name;
+        angularService.dir_createRecord(directory, $scope.record);
+    }
     $scope.setRegions = function () {
         var getData = angularService.getRegions();
         getData.then(function (regions) {

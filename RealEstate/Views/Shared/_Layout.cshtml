@@ -14,14 +14,14 @@
     <script src="~/Angular/Module.js"></script>
     <script src="~/Angular/Service.js"></script>
     <script src="~/Angular/Controller.js"></script>
+    <script src="~/Angular/Filter.js"></script>
+    <script src="~/Angular/Directives.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     
 </head>
 <body>
-    @if (Session["UserName"] == null)
-    {
-        <div style="width:100%;height:4em;background-color:black">
+    @if (Session["UserName"] == null) { <div style="width:100%;height:4em;background-color:black">
             <div style="float:left;padding:15px; font-size: 18px;">
                 @Html.ActionLink("Войти", "LogIn", "Account")
             </div>
@@ -58,8 +58,5 @@
     }
 
     @RenderBody()
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
-    
 </body>
 </html>

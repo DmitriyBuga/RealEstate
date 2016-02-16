@@ -19,7 +19,7 @@ namespace RealEstate.Models.Abstract
         IQueryable<Districts> Districts { get; }
         void CreateNewUser(Users user);
         void DeleteRecord<T>(T dbEntry);
-        void CreateRecord<T>(T dbEntry);
+        T CreateRecord<T>(T dbEntry);
         void UpdateRecord<T>(T dbEntry);
     }
 }

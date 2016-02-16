@@ -55,11 +55,12 @@ namespace RealEstate.Models.Concrete
             dbSet.Remove(dbEntry);
             dbContext.SaveChanges();
         }
-        public void CreateRecord<T>(T dbEntry)
+        public T CreateRecord<T>(T dbEntry)
         {
             DbSet dbSet = dbContext.Set(typeof(T));
             dbSet.Add(dbEntry);
             dbContext.SaveChanges();
+            return dbEntry;
         }
         public void UpdateRecord<T>(T dbEntry)
         {
