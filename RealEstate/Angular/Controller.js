@@ -12,6 +12,11 @@
     $scope.sortType = 'ID'
     $scope.tableHeaders = {};
     $scope.sortMode = 2;
+    $scope.source = {
+        varOpen: 'open',
+        list: 'listUser',
+        selectedVar: 'selectedUser'
+    }
     $scope.order = {
         header: null,
         direction: false
@@ -54,71 +59,47 @@
         found: 0, // найдено записей
         foundPages: 0, // количество страниц в таблице
 
-        /**
-         * Устанавливает количество записей на странице
-         * @param num int Количество записей на странице
-         */
         setOnPage: function (num) {
-            alert(num);
             this.onPage = parseInt(num);
             this.update($scope.filtered.length);
         },
 
-        /**
-         * Возвращает количество записей на странице
-         * @returns int
-         */
         getOnPage: function () {
             return this.onPage;
         },
 
-        /**
-         * Обновляет данные пейджера
-         * @param len int Количество записей в таблице (после применения фильтра)
-         */
         update: function (len) {
             this.found = len;
             this.foundPages = Math.ceil(len / this.onPage);
             this.currentPage = 1;
         }
     };
-    /**
-     * Переход на следующую страницу
-     */
+   
     $scope.gotoNextPage = function () {
         if ($scope.pager.foundPages == $scope.pager.currentPage)
             return true;
         $scope.pager.currentPage++;
     };
 
-    /**
-     * Переход на первую страницу
-     */
+    
     $scope.gotoFirstPage = function () {
         $scope.pager.currentPage = 1;
     };
 
-    /**
-     * Переход на последнюю страницу
-     */
     $scope.gotoLastPage = function () {
         $scope.pager.currentPage = $scope.pager.foundPages;
     };
 
-    /**
-     * Переход на предыдущую страницу
-     */
+    
     $scope.gotoPrevPage = function () {
         if ($scope.pager.currentPage == 1)
             return true;
         $scope.pager.currentPage--;
     };
 
-    // следим за коллекцией отфильтрованных элементов
     $scope.$watchCollection("filtered", function (list) {
         $scope.pager.update(list.length);
     });
-    //$scope.filtered = 0;//$scope.estates.length;
     
     $scope.listCity = [{
         id: 1,
@@ -140,72 +121,24 @@
         id: 3,
         name: 'Google'
     }];
-    $scope.search = function () {
-        var tempEstates = [];
-        if (!angular.isUndefined($scope.estates) && !angular.isUndefined($scope.selectedUser) && $scope.selectedUser.length > 0) {
-            angular.forEach($scope.selectedUser, function (id) {
-                angular.forEach($scope.estates, function (estate) {
-                    if (angular.equals(estate.user_id, id)) {
-                        tempEstates.push(estate);
-                    }
-                });
-            });
-            $scope.itemsByPage = $scope.paged(tempEstates);
-        }
-        else {
-            $scope.itemsByPage = $scope.paged($scope.estates);
-        }
-        $scope.currentPage = 0;
-        //alert($scope.itemsByPage.length);
-    };
-    $scope.paged = function (valLists) {
-        var pageSize = $scope.pageSize;
-        retVal = [];
-        for (var i = 0; i < valLists.length; i++){
-            if (i % pageSize === 0) {
-                retVal[Math.floor(i / pageSize)] = [valLists[i]];
-            } else {
-                retVal[Math.floor(i / pageSize)].push(valLists[i]);
-            }
-        }
-        return retVal;
-    }
-    $scope.pagination = function () {
-        
-        $scope.itemsByPage = $scope.paged($scope.estates)
-    }
-    $scope.setPage = function () {
-        $scope.currentPage = this.n;
-    }
-    $scope.firstPage = function () {
-        $scope.currentPage = 0;
-    };
-    $scope.range = function (input, total) {
-        var ret = [];
-        if (!total) {
-            total = input;
-            input = 0;
-        }
-        for (var i = input; i < total; i++) {
-            if (i != 0 && i != total - 1) {
-                ret.push(i);
-            }
-        }
-        return ret;
-    };
-
-    $scope.lastPage = function () {
-        $scope.currentPage = $scope.itemsByPage.length - 1;
-    };
+    
     $scope.setSelected = function (id, sList) {
-        
+        alert(id);
         if (_.contains($scope[sList], id)) {
             $scope[sList] = _.without($scope[sList], id);
         } else {
             $scope[sList].push(id);
         }
-        $scope.search();
+        //$scope.search();
         return false;
+    }
+    $scope.isCheckedUser = function (id) {
+        if (_.contains($scope.selectedUser, id)) {
+            return 'glyphicon glyphicon-ok';
+        }
+        else {
+            return '';
+        }
     }
     $scope.isChecked = function (id, sList) {
         if (_.contains($scope[sList], id)) {
@@ -215,16 +148,18 @@
             return'';
         }
     }
-    $scope.checkAll = function (sList,sSelected) {
+    $scope.uncheckAll = function (sSelected) {
+        alert($scope[sSelected]);
+        $scope[sSelected] = [];
+        alert($scope[sSelected]);
+    }
+    $scope.checkAll = function (sList, sSelected) {
         $scope[sSelected] = _.pluck($scope[sList], 'id');
     };
     function GetAllEstates() {
         var getData = angularService.GetAllEstates();
         getData.then(function (est) {
             $scope.estates = est.data;
-            
-            $scope.pagination();
-            //$scope.filtered = $scope.estates.length;
         }, function () {
             //alert('Error in getting records');
         });
@@ -233,8 +168,6 @@
         var getData = angularService.deleteEstate(estateId);
         var currentIndex = _.findIndex($scope.estates, { id: estateId });
         $scope.estates.splice(currentIndex, 1);
-        $scope.pagination();
-        //$scope.GetAllEstates();
     }
     function GetEstatesByUser(id) {
         var getData = angularService.GetEstatesByUser(id);
@@ -242,21 +175,6 @@
             $scope.estates = est.data;
         }, function () { }
         );
-    }
-    $scope.userFilter = function (estates, selectedUser) {
-        if (!angular.isUndefined(estates) && !angular.isUndefined(selectedUser) && selectedUser.length > 0) {
-            var tempEstates = [];
-            angular.forEach(selectedUser, function (id) {
-                angular.forEach(estates, function (estate) {
-                    if (angular.equals(estate.user.id, id)) {
-                        tempClients.push(estate);
-                    }
-                });
-            });
-            return tempEstates;
-        } else {
-            return estates;
-        }
     }
 });
 app.controller("dirController", function ($scope, angularService) {

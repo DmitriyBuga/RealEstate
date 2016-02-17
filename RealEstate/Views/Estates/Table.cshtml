@@ -35,43 +35,15 @@
     <p class="h4">Доступная недвижимость</p>
     <ul class="inline">
         <li>
-            <div class="btn-group" data-ng-class="{open: open}" ng-model="prefixModel">
-                <button class="btn">filtered by manager</button>
-                <button class="btn dropdown-toggle" data-ng-click="open=!open">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <li>
-                        <a data-ng-click="checkAll('listUser','selectedUser')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
-                    </li>
-                    <li>
-                        <a data-ng-click="selectedUser=[];"><i class="glyphicon glyphicon-unchecked"></i>  Uncheck All</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li data-ng-repeat="user in listUser">
-                        <a data-ng-click="setSelected(user.id,'selectedUser')">{{user.name}}<span data-ng-class="isChecked(user.id,'selectedUser')"></span></a>
-                    </li>
-                </ul>
-            </div>
-            <div class="btn-group" data-ng-class="{open: openCity}">
-                <button class="btn">filtered by City</button>
-                <button class="btn dropdown-toggle" data-ng-click="openCity=!openCity">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                    <li>
-                        <a data-ng-click="checkAll('listCity','selectedCity')"><i class="glyphicon glyphicon-check"></i>  Check All</a>
+            <div cmb-filter source="source" list="listUser" selectedVar="selectedUser" on-check-all="checkAll('listUser', 'selectedUser')"
+                 on-uncheck-all="uncheckAll('selectedUser')" on-select-item="setSelected(id,'selectedUser')"
+                 set-check-icon="isChecked(id,'selectedUser')"></div>
+        </li>
+        <li>
+            <div cmb-filter source="source" list="listCity" selectedVar="selectedCity" on-check-all="checkAll('listCity', 'selectedCity')"
+                 on-uncheck-all="uncheckAll('selectedCity')" on-select-item="setSelected(id,'selectedCity')"
+                 set-check-icon="isChecked(id,'selectedCity')"></div>
 
-                    </li>
-                    <li>
-                        <a data-ng-click="selectedCity=[];"><i class="glyphicon glyphicon-unchecked"></i>  Uncheck All</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li data-ng-repeat="city in listCity">
-                        <a data-ng-click="setSelected(city.id,'selectedCity')">{{city.name}}<span data-ng-class="isChecked(city.id,'selectedCity')"></span></a>
-                    </li>
-                </ul>
-            </div>
         </li>
     </ul>
     <div class="divList">
@@ -88,7 +60,6 @@
             <thead>
                 <tr>
                     <th sort-by='user_name'>
-
                         Manager
                     </th>
                     <th>
