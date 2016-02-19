@@ -150,6 +150,9 @@
     <Content Include="Angular\Filter.js" />
     <Content Include="Angular\Module.js" />
     <Content Include="Angular\Service.js" />
+    <Content Include="Angular\tpls\tplCmbFilter.html" />
+    <Content Include="Bootstrap\css\styles.css" />
+    <Content Include="Bootstrap\css\variables.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -225,6 +228,8 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Bootstrap\styles.less" />
+    <Content Include="Bootstrap\variables.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\i18n\angular-locale_aa-er.js" />
@@ -1014,6 +1019,7 @@
     <Compile Include="Models\Districts.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entities\EstateModel.cs" />
     <Compile Include="Models\Entities\Estates.cs" />
     <Compile Include="Models\Entities\EstatesJSON.cs" />
     <Compile Include="Models\Estates.cs">
@@ -1063,9 +1069,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Estates\Table.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Estates\EditEstate.cshtml" />
+    <Content Include="Views\Estates\__EditEstate.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Directories\Regions.cshtml" />
+    <Content Include="Views\Estates\EditEstate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1075,6 +1082,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Bootstrap\less\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

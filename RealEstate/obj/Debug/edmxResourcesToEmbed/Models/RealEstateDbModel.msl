@@ -37,6 +37,7 @@
     <EntitySetMapping Name="Estates">
       <EntityTypeMapping TypeName="RealEstateModel.Estates">
         <MappingFragment StoreEntitySet="Estates">
+          <ScalarProperty Name="district_id" ColumnName="district_id" />
           <ScalarProperty Name="isempty" ColumnName="isempty" />
           <ScalarProperty Name="dend" ColumnName="dend" />
           <ScalarProperty Name="dstart" ColumnName="dstart" />

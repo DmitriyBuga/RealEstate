@@ -1,4 +1,4 @@
-﻿@model RealEstate.Models.Estates
+﻿@model RealEstate.Models.EstateModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -14,36 +14,48 @@
     </style>
 </head>
 <body>
-    @using (Html.BeginForm("EditEstate", "Estates", FormMethod.Post, new { @class = "well span form-horizontal", enctype = "multipart/form-data",  }))
+    @using (Html.BeginForm("EditEstate", "Estates", FormMethod.Post, new { @class = "well span form-horizontal" }))
     {
         <div class="well row" style="width:100%">
             <div class="col-sm-4" style="width:50%">
-                @Html.HiddenFor(model => model.id)
+                @Html.HiddenFor(model => model.estate.id)
                 <label style="width:100px;">Манагер</label>
-                @Html.DropDownListFor(model => model.Users.id, Model.listUser as SelectList, new { style = "width:200px" })
-                @Html.ValidationMessageFor(model => model.Users.id, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.estate.Users.id, Model.listUser as SelectList, new { style = "width:200px" })
+                @Html.ValidationMessageFor(model => model.estate.Users.id, "", new { @class = "text-danger" })
                 <br>
                 <label style="width:100px;">Область</label>
-                @Html.EditorFor(model => model.region)
+                @Html.DropDownListFor(model => model.estate.Regions.id, Model.listRegion as SelectList, new { style = "width:200px" })
+                @Html.ValidationMessageFor(model => model.estate.Regions.id, "", new { @class = "text-danger" })
                 <br>
                 <label style="width:100px;">Город</label>
-                @Html.EditorFor(model => model.city)
+                @Html.EditorFor(model => model.estate.city)
+                @Html.DropDownListFor(model => model.estate.Cities.id, Model.listCity as SelectList, new { style = "width:200px" })
+                @Html.ValidationMessageFor(model => model.estate.Cities.id, "", new { @class = "text-danger" })
                 <br>
                 <label style="width:100px;">Район</label>
-                @Html.EditorFor(model => model.district)
+                @Html.EditorFor(model => model.estate.district)
+                @Html.ValidationMessageFor(model => model.estate.district, "", new { @class = "text-danger" })
+                <br>
+                <label style="width:100px;">Общая площадь</label>
+                @Html.EditorFor(model => model.estate.square)
+                @Html.ValidationMessageFor(model => model.estate.square, "", new { @class = "text-danger" })
+                <label style="width:100px;">Цена</label>
+                @Html.EditorFor(model => model.estate.price)
+                @Html.ValidationMessageFor(model => model.estate.price, "", new { @class = "text-danger" })
+                <br>
                 <br>
             </div>
             <div class="col-sm-8" style="width:50%">
                 <label style="width:100px;">Body</label>
-                @Html.TextAreaFor(model => model.descr, 5, 50, null)
-                @Html.ValidationMessageFor(model => model.descr, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.estate.descr, 5, 50, null)
+                @Html.ValidationMessageFor(model => model.estate.descr, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="well row" style="width:100%">
             <div ng-app="appRealEstate" ng-controller="estateEditController">
-                <span ng-init="setCurrentEstateId(@Model.id)"></span>
+                <span ng-init="setCurrentEstateId(@Model.estate.id)"></span>
                 <span ng-init="getImageList()"></span>
-                <div id="dynamiccontentcarousel" class="carousel slide" data-interval="2000" >
+                <div id="dynamiccontentcarousel" class="carousel slide" data-interval="2000">
 
                     <ol class="carousel-indicators">
                         <li style="align-items:center" data-target="#dynamiccontentcarousel" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" data-slide-to="{{$index}}"></li>
@@ -78,20 +90,20 @@
                             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
-                        
-                        
+
+
                     </div>
                 </div>
                 <div>
                     <input onchange="angular.element(this).scope().file_changed(this)"
                            type="file" accept="image/*">
-                </div>    
+                </div>
             </div>
-            
+
         </div>
-        
+
         <div class="well row" style="width:100%">
-            @Html.Hidden("Id", @Model.id)
+            @Html.Hidden("Id", @Model.estate.id)
             <input type="submit" value="Сохранить" />
         </div>
     }

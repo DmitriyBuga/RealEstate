@@ -17,7 +17,5 @@ namespace RealEstate.Models
         public int id { get; set; }
         public string name { get; set; }
         public int city_id { get; set; }
-    
-        public virtual Cities Cities { get; set; }
     }
 }

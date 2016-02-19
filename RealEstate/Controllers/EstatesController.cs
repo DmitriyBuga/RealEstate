@@ -93,45 +93,64 @@ namespace RealEstate.Controllers
             }
             return Json("", JsonRequestBehavior.AllowGet);
         }
+        
         [HttpPost]
-        public ViewResult EditEstate(Estates estate, HttpPostedFileBase upload)
+        public ViewResult EditEstate(EstateModel modelEstate)
         {
-            //Estates estate = repository.Estates.FirstOrDefault(x => x.ID == Id);
 
-            if (upload != null)
+            modelEstate.estate.user_id = modelEstate.estate.Users.id;
+            modelEstate.estate.region_id = modelEstate.estate.Regions.id;
+            modelEstate.estate.city_id = modelEstate.estate.Cities.id;
+            
+            ValidateEstate(modelEstate.estate);
+            
+            if (ModelState.IsValid)
             {
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
-                string userDir = Server.MapPath("~" + _localImagePath + estate.id.ToString() + "/");
-                System.IO.Directory.CreateDirectory(userDir);
-                if (System.IO.Directory.Exists(userDir))
+                Estates dbEntry = repository.Estates.FirstOrDefault(x => x.id == modelEstate.estate.id);
+                if (dbEntry != null)
                 {
-                    estate.lastImagePath = userDir + fileName;
-                    upload.SaveAs(estate.lastImagePath);
-                    estate.lastImagePath = _localImagePath + estate.id.ToString() + "/" + System.IO.Path.GetFileName(estate.lastImagePath);
+                    //dbEntry.price = modelEstate.estate.price;
+                    //dbEntry.apt = modelEstate.estate.apt;
+                    dbEntry = modelEstate.estate;
+                    repository.UpdateRecord<Estates>(modelEstate.estate);
                 }
-
+                else
+                {
+                    modelEstate.estate.Users = repository.Users.FirstOrDefault(x => x.id == modelEstate.estate.user_id);
+                    modelEstate.estate.Regions = repository.Regions.FirstOrDefault(x => x.id == modelEstate.estate.region_id);
+                    modelEstate.estate.Cities = repository.Cities.FirstOrDefault(x => x.id == modelEstate.estate.city_id);
+                    repository.CreateRecord<Estates>(modelEstate.estate);
+                }
             }
-            estate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
-            return View(estate);
+            modelEstate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
+            modelEstate.listRegion = new SelectList(repository.Regions.OrderBy(x => x.id), "Id", "Name");
+            modelEstate.listCity = new SelectList(repository.Cities.OrderBy(x => x.id), "Id", "Name");
+            return View(modelEstate);
         }
         public void DeleteEstate(int id)
         {
             repository.DeleteRecord<Estates>(repository.Estates.FirstOrDefault(x=>x.id == id));
+            if (System.IO.Directory.Exists(Server.MapPath("~" + _localImagePath + id.ToString() + "/")))
+                System.IO.Directory.Delete(Server.MapPath("~" + _localImagePath + id.ToString() + "/"));
+        }
+        private void ValidateEstate(Estates estate)
+        {
+            if (estate.price == 0)
+                ModelState.AddModelError("price", "Не заполнена цена");
         }
         [HttpGet]
-        public ViewResult EditEstate(int Id)
+        public ViewResult EditEstate(int? Id)
         {
-            Estates estate = repository.Estates.FirstOrDefault(x => x.id == Id);
-            string userDir = Server.MapPath("~" + _localImagePath + estate.id.ToString() + "/");
-            string[] listFiles;
-            if (System.IO.Directory.Exists(userDir))
-            {
-                listFiles = System.IO.Directory.GetFiles(userDir);
-                if (listFiles.Length > 0)
-                    estate.lastImagePath = _localImagePath + estate.id.ToString() + "/" + System.IO.Path.GetFileName(listFiles[0]);
-            }
-            estate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
-            return View(estate);
+            EstateModel modelEstate = new EstateModel();
+            if (Id == null)
+                modelEstate.estate = new Estates();
+                
+            else
+                modelEstate.estate = repository.Estates.FirstOrDefault(x => x.id == Id);
+            modelEstate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
+            modelEstate.listRegion = new SelectList(repository.Regions.OrderBy(x => x.id), "Id", "Name");
+            modelEstate.listCity = new SelectList(repository.Cities.OrderBy(x => x.id), "Id", "Name");
+            return View(modelEstate);
         }
        
         public JsonResult _UploadImage(string uploadFiles)

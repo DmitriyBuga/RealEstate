@@ -2,60 +2,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
-    <style type="text/css">
-        .solo-table-sort-asc > .solo-column-arrow {
-            position: relative;
-            top: 10px;
-            margin-left: 5px;
-            border-color: black transparent;
-            border-style: solid;
-            border-width: 5px 5px 0px 5px;
-            height: 0px;
-            width: 0px;
-        }
-
-        .solo-table-sort-desc > .solo-column-arrow {
-            position: relative;
-            top: -10px;
-            margin-left: 5px;
-            border-color: black transparent;
-            border-style: solid;
-            border-width: 0px 5px 5px 5px;
-            height: 0px;
-            width: 0px;
-        }
-
-        .solo-table-column-cursor {
-            cursor: pointer;
-        }
-    </style>
 </head>
 <div ng-controller="estatesTblController" class="well-span8">
-    <br />
-    <p class="h4">Доступная недвижимость</p>
-    <ul class="inline">
-        <li>
-            <div cmb-filter source="source" list="listUser" selectedVar="selectedUser" on-check-all="checkAll('listUser', 'selectedUser')"
-                 on-uncheck-all="uncheckAll('selectedUser')" on-select-item="setSelected(id,'selectedUser')"
-                 set-check-icon="isChecked(id,'selectedUser')"></div>
-        </li>
-        <li>
-            <div cmb-filter source="source" list="listCity" selectedVar="selectedCity" on-check-all="checkAll('listCity', 'selectedCity')"
-                 on-uncheck-all="uncheckAll('selectedCity')" on-select-item="setSelected(id,'selectedCity')"
-                 set-check-icon="isChecked(id,'selectedCity')"></div>
-
-        </li>
-    </ul>
-    <div class="divList">
-        <div>Page {{pager.currentPage}} of {{pager.foundPages}}. Total items:  {{pager.found}}</div>
-        <input placeholder="Filter by name and address" type="text" name="id" ng-model="filterModel">
-        <select ng-model="prefixModel1" class="input">
-            <option value="">All prefixes</option>
-            <option value="Mrs.">Mrs.</option>
-            <option value="Mr.">Mr.</option>
-            <option value="Ms.">Ms.</option>
-            <option value="Miss">Miss</option>
-        </select>
+    <div class="well row col-md-24"  style="padding:1em">
+        <div class="well-row col-md-4">
+            <div cmb-filter title='Выбор менеджера' list="listUser" selectedVar="selectedUser" on-check-all="checkAll('listUser', 'selectedUser')"
+                    on-uncheck-all="uncheckAll('selectedUser')" on-select-item="setSelected(id,'selectedUser')"
+                    set-check-icon="isChecked(id,'selectedUser')">
+            </div>
+        </div>
+        <div class="well-row col-md-4">
+            <div cmb-filter title='Выбор города' list="listCity" selectedVar="selectedCity" on-check-all="checkAll('listCity', 'selectedCity')"
+                    on-uncheck-all="uncheckAll('selectedCity')" on-select-item="setSelected(id,'selectedCity')"
+                    set-check-icon="isChecked(id,'selectedCity')">
+            </div>
+        </div>
+        <input placeholder="Введите имя менеджера или адрес" type="text" name="id" ng-model="filterModel" class="well-row col-md-8">
+    </div>
+    <div class="well row col-md-24">
+        <div class="well row col-md-24" style="padding:1em">
+            <div class="well-row col-md-8">
+                <a href="" ng-click="gotoFirstPage()" class="btn btn-default">First page</a>
+                <a href="" ng-click="gotoPrevPage()" class="btn btn-default">prev</a>
+                <a href="" ng-click="gotoNextPage()" class="btn btn-default">next</a>
+                <a href="" ng-click="gotoLastPage()" class="btn btn-default">Last page </a>
+            </div>
+            <div class="well-row col-md-4" style="float:right">
+                <b>
+                    Page {{pager.currentPage}} of {{pager.foundPages}}. Total items:  {{pager.found}}
+                </b>
+            </div>
+        </div>
+        
         <table cellpadding="12" class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -136,23 +114,15 @@
                 </tr>
             </tbody>
         </table>
-        <div>
-            <a href="" ng-click="gotoFirstPage()">First page | </a>
-            <a href="" ng-click="gotoPrevPage()"> &larr;prev | </a>
-            <a href="" ng-click="gotoNextPage()">next &rarr; | </a>
-            <a href="" ng-click="gotoLastPage()">Last page </a>
+        <div class="well-row col-md-8">
+            <a href="" ng-click="gotoFirstPage()" class="btn btn-default">First page</a>
+            <a href="" ng-click="gotoPrevPage()" class="btn btn-default">prev</a>
+            <a href="" ng-click="gotoNextPage()" class="btn btn-default">next</a>
+            <a href="" ng-click="gotoLastPage()" class="btn btn-default">Last page </a>
         </div>
-        <ul class="pagination pagination-sm">
-            <li ng-class="{active:0}">
-                <a href="#" ng-click="firstPage()">First</a>
-            </li>
-            <li ng-repeat="n in range(itemsByPage.length)">
-                <a href="#" ng-click="setPage()" ng-bind="n+1">1</a>
-            </li>
-            <li>
-                <a href="#" ng-click="lastPage()">Last</a>
-            </li>
-        </ul>
+        <div class="well-row col-md-8">
+            <a href="/Estates/EditEstate/" class="btn btn-default">+</a>
+        </div>
     </div>
 </div>
 

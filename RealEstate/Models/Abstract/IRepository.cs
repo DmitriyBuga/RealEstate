@@ -20,6 +20,6 @@ namespace RealEstate.Models.Abstract
         void CreateNewUser(Users user);
         void DeleteRecord<T>(T dbEntry);
         T CreateRecord<T>(T dbEntry);
-        void UpdateRecord<T>(T dbEntry);
+        void UpdateRecord<T>(T dbEntry) where T : class;
     }
 }

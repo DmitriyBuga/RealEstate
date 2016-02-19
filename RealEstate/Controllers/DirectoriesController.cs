@@ -29,9 +29,17 @@ namespace RealEstate.Controllers
         {
             return View();
         }
+        public class JSONRegions
+        {
+            public int id;
+            public string name;
+        }
         public JsonResult GetAllRegions()
         {
-            return Json(repository.Regions, JsonRequestBehavior.AllowGet);
+            List<JSONRegions> regions = new List<JSONRegions>();
+            foreach (Regions reg in repository.Regions)
+                regions.Add(new JSONRegions(){id = reg.id, name = reg.name });
+            return Json(regions, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetCities(int? regionId)
         {

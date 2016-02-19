@@ -29,8 +29,7 @@ app.directive("cmbFilter", function ($compile) {
         restrict: "EA",
         replace: false,
         scope: {
-            
-            source: '=source',
+            captionText:'@title',
             list: '=list',
             selectedVar: '=selectedVar',
             onCheckAll: '&',
@@ -38,9 +37,11 @@ app.directive("cmbFilter", function ($compile) {
             onSelectItem: '&',
             setCheckIcon:'&'
         },
+        //templateUrl:'/Angular/tpls/tplCmbFilter.html'//не закрывается дропдаунлист
+        
         template:
             '<div class="btn-group" data-ng-class="{open:open}" ng-model="prefixModel">' +
-                '<button class="btn">filtered by manager</button>' +
+                '<button class="btn">{{captionText}}</button>' +
                 '<button class="btn dropdown-toggle" data-ng-click="open=!open">' +
                     '<span class="caret"></span>' +
                 '</button>' +
@@ -56,7 +57,7 @@ app.directive("cmbFilter", function ($compile) {
                         '<a data-ng-click="onSelectItem({id:user.id, selectedVar:selectedVar})">{{user.name}}<span data-ng-class="setCheckIcon({id:user.id,selectedVar:selectedVar})"></span></a>' +
                     '</li>' +
                 '</ul>' +
-            '</div>'
+            '</div>'  
         ,
         terminal: true,
         link: function (scope, element, attrs) {

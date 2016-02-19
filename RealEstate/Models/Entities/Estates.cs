@@ -6,9 +6,10 @@ using System.Web.Mvc;
 
 namespace RealEstate.Models
 {
-    public partial class Estates
+    public partial class _Estates
     {
         public SelectList listUser { get; set; }
-        public string lastImagePath { get; set; }
+        public SelectList listRegion { get; set; }
+        public SelectList listCity { get; set; }
     }
 }

@@ -38,7 +38,10 @@ namespace RealEstate.Models
         public Nullable<System.DateTime> dstart { get; set; }
         public Nullable<System.DateTime> dend { get; set; }
         public Nullable<bool> isempty { get; set; }
+        public Nullable<int> district_id { get; set; }
     
+        public virtual Cities Cities { get; set; }
+        public virtual Regions Regions { get; set; }
         public virtual Users Users { get; set; }
     }
 }

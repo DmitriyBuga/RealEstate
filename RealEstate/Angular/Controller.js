@@ -1,4 +1,40 @@
-﻿app.controller("estatesTblController", function ($scope,$filter, angularService) {
+﻿function HightlightMemu(path, cur_url) {
+    //навешиваем события по наведению мыши  
+    jQuery(path).each(function () {
+        jQuery(this).mouseover(function () { jQuery(this).parent('li').addClass('active'); });
+        jQuery(this).mouseout(function () { jQuery(this).parent('li').removeClass('active'); })
+    });
+    //Ищем подходящий пункт меню для выделения  
+    var url = "";
+    if (cur_url == "")
+        url = window.location.toString();
+    else
+        url = cur_url;
+
+    var max = 0;
+    var link = null;
+
+    jQuery(path).each(function () {
+        //finding the longest href  
+        if (url.indexOf(this.href) >= 0 && this.href.length > max) {
+            link = this;
+            max = this.href.length;
+        }
+    });
+
+    if (link)
+        jQuery(link).parent('li').addClass('current');
+}
+
+function initMenu() {
+    //left navigation current item highlight  
+    HightlightMemu("#top_menu > li > a", "");
+};
+
+jQuery(document).ready(function () {
+    initMenu();
+});
+app.controller("estatesTblController", function ($scope, $filter, angularService) {
     
     $scope.pageSize = 10;
     $scope.currentPage = 0;
@@ -12,11 +48,6 @@
     $scope.sortType = 'ID'
     $scope.tableHeaders = {};
     $scope.sortMode = 2;
-    $scope.source = {
-        varOpen: 'open',
-        list: 'listUser',
-        selectedVar: 'selectedUser'
-    }
     $scope.order = {
         header: null,
         direction: false
@@ -123,7 +154,6 @@
     }];
     
     $scope.setSelected = function (id, sList) {
-        alert(id);
         if (_.contains($scope[sList], id)) {
             $scope[sList] = _.without($scope[sList], id);
         } else {
@@ -149,9 +179,7 @@
         }
     }
     $scope.uncheckAll = function (sSelected) {
-        alert($scope[sSelected]);
         $scope[sSelected] = [];
-        alert($scope[sSelected]);
     }
     $scope.checkAll = function (sList, sSelected) {
         $scope[sSelected] = _.pluck($scope[sList], 'id');
