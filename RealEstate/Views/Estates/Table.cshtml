@@ -1,9 +1,16 @@
-﻿@{
+﻿@model RealEstate.Models.TableModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
+    
 </head>
+
 <div ng-controller="estatesTblController" class="well-span8">
+    <script type="text/javascript">
+        var model = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(this.Model));
+        app.value("viewModel", model);
+    </script>
     <div class="well row col-md-24"  style="padding:1em">
         <div class="well-row col-md-4">
             <div cmb-filter title='Выбор менеджера' list="listUser" selectedVar="selectedUser" on-check-all="checkAll('listUser', 'selectedUser')"
@@ -47,26 +54,42 @@
                             <span ng-show="sortType == 'ID' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
                         </a>
                     </th>
+                    
                     <th>
-                        Description
+                        Область
                     </th>
                     <th>
-                        Region
+                        Город
                     </th>
                     <th>
-                        City
+                        Район
                     </th>
                     <th>
-                        Street
+                        Улица
                     </th>
                     <th>
-                        Floor/Floors
+                        № <br />дома
                     </th>
                     <th>
-                        Rooms
+                        № <br />кв
                     </th>
                     <th>
-                        Square
+                        Площадь
+                    </th>
+                    <th>
+                        Цена
+                    </th>
+                    <th>
+                        Этаж
+                    </th>
+                    <th>
+                        Всего<br />этажей
+                    </th>
+                    <th>
+                        Кол-во<br />комнат
+                    </th>
+                    <th>
+                        Описание
                     </th>
                     <th>
                         Action
@@ -77,7 +100,7 @@
                 @*
                     <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
                 *@
-                <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction| filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|customFilter:selectedUser)| pager:pager.currentPage:pager.getOnPage()">
+                <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction| filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|customFilter:selectedUser:'user_id'|customFilter:selectedCity:'city_id')| pager:pager.currentPage:pager.getOnPage()">
 
                     <td>
                         {{estate.user_name}}
@@ -85,9 +108,7 @@
                     <td>
                         {{estate.id}}
                     </td>
-                    <td>
-                        {{estate.descr}}
-                    </td>
+                    
                     <td>
                         {{estate.region}}
                     </td>
@@ -95,21 +116,31 @@
                         {{estate.city}}
                     </td>
                     <td>
+                        {{estate.district}}
+                    </td>
+                    <td>
                         {{estate.street}}
                     </td>
-                    <td>
-                        {{estate.floor}}/{{estate.floors}}
-                    </td>
-                    <td>
-                        {{estate.rooms}}
-                    </td>
+                    <td>{{estate.building}}</td>
+                    <td>{{estate.apt}}</td>
                     <td>
                         {{estate.square}}
                     </td>
-
+                    <td>{{estate.price}}</td>
                     <td>
-                        <a href="/Estates/EditEstate/{{estate.id}}" class="btn btn-default">Edit</a>
-                        <span ng-click="deleteEstate(estate.id)" class="btn btn-danger">Delete</span>
+                        {{estate.floor}}
+                    </td>
+                    <td>{{estate.floors}}</td>
+                    <td>
+                        {{estate.rooms}}
+                    </td>
+                    
+                    <td>
+                        {{estate.descr}}
+                    </td>
+                    <td>
+                        <a href="/Estates/EditEstate/{{estate.id}}" class="btn btn-sm btn-default">Edit</a>
+                        <span ng-click="deleteEstate(estate.id)" class="btn btn-sm btn-danger">Delete</span>
                     </td>
                 </tr>
             </tbody>

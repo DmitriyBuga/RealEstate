@@ -26,8 +26,15 @@
     }
     
     this.getRegions = function () {
-        return $http.get("/Directories/GetAllRegions")
+        return $http.get("/Directories/GetRegions")
     }
+    this.getUsers = function () {
+        return $http.get("/Directories/GetUsers")
+    }
+    this.getCities = function () {
+        return $http.get("/Directories/GetCities")
+    }
+    /*
     this.getCities = function (regionId) {
         var responce = $http({
             method: "POST",
@@ -37,6 +44,7 @@
         });
         return responce;
     }
+    */
     this.getStreets = function (cityId) {
         var responce = $http({
             method: "POST",
@@ -46,18 +54,6 @@
         });
         return responce;
     }
-    this.getDistricts = function (cityId) {
-        var responce = $http({
-            method: "POST",
-            url: "/Directories/GetDistricts",
-            params: { regionId: JSON.stringify(cityId) },
-            dataType: "JSON"
-        });
-        return responce;
-    }
-    this.GetAllEstates = function () {
-        return $http.get("/Estates/GetAllEstates");
-    };
     this.deleteEstate = function (estateId) {
         var responce = $http({
             method: "GET",

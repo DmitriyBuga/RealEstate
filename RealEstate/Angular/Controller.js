@@ -34,7 +34,7 @@ function initMenu() {
 jQuery(document).ready(function () {
     initMenu();
 });
-app.controller("estatesTblController", function ($scope, $filter, angularService) {
+app.controller("estatesTblController", function ($scope, $filter, angularService, viewModel) {
     
     $scope.pageSize = 10;
     $scope.currentPage = 0;
@@ -43,11 +43,23 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     $scope.filtered = [];
     $scope.estates = [];
     $scope.itemsOnPage = 10;
-    GetAllEstates();
+    //GetAllEstates();
+    //setListCities();
+    //setListRegions();
+    //setListUsers();
+    $scope.estates = [];
+    $scope.listCity = [];
+    $scope.listRegions = [];
+    $scope.listUser = [];
     $scope.sortReverse = false;
     $scope.sortType = 'ID'
     $scope.tableHeaders = {};
     $scope.sortMode = 2;
+    
+    $scope.estates = viewModel.estates;
+    $scope.listCity = viewModel.cities;
+    $scope.listUser = viewModel.users;
+    $scope.listRegions = viewModel.regions;
     $scope.order = {
         header: null,
         direction: false
@@ -132,26 +144,29 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         $scope.pager.update(list.length);
     });
     
-    $scope.listCity = [{
-        id: 1,
-        name: 'Apple'
-    }, {
-        id: 2,
-        name: 'Facebook'
-    }, {
-        id: 3,
-        name: 'Google'
-    }];
-    $scope.listUser = [{
-        id: 1,
-        name: 'Apple'
-    }, {
-        id: 2,
-        name: 'Facebook'
-    }, {
-        id: 3,
-        name: 'Google'
-    }];
+    function setListRegions() {
+        var getData = angularService.getRegions();
+        getData.then(function(data)
+        {
+            $scope.listRegions = data.data;
+        }, function () {
+            //alert('Error in getting records');
+        });
+    }
+    function setListUsers() {
+        var getData = angularService.getUsers();
+        getData.then(function (data) {
+            $scope.listUser = data.data
+        }, function () { }
+        );
+    }
+    function setListCities() {
+        var getData = angularService.getCities();
+        getData.then(function (data) {
+            $scope.listCity = data.data
+        }, function () { }
+        );
+    }
     
     $scope.setSelected = function (id, sList) {
         if (_.contains($scope[sList], id)) {
@@ -240,7 +255,9 @@ app.controller("dirController", function ($scope, angularService) {
     }
     $scope.setRegions = function () {
         var getData = angularService.getRegions();
+        
         getData.then(function (regions) {
+            debugger
             $scope.regions = regions.data;
         });
     }

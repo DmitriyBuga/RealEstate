@@ -1,5 +1,7 @@
 ﻿using RealEstate.Models;
 using RealEstate.Models.Abstract;
+using RealEstate.Models.Concrete;
+using RealEstate.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,26 +31,17 @@ namespace RealEstate.Controllers
         {
             return View();
         }
-        public class JSONRegions
+        public JsonResult GetUsers()
         {
-            public int id;
-            public string name;
+            return Json(new CommonData(repository).GetUsers(), JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetAllRegions()
+        public JsonResult GetRegions()
         {
-            List<JSONRegions> regions = new List<JSONRegions>();
-            foreach (Regions reg in repository.Regions)
-                regions.Add(new JSONRegions(){id = reg.id, name = reg.name });
-            return Json(regions, JsonRequestBehavior.AllowGet);
+            return Json(new CommonData(repository).GetRegions(), JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetCities(int? regionId)
+        public JsonResult GetCities()
         {
-            if (regionId != null)
-
-                return Json(repository.Cities.FirstOrDefault(x => x.region_id == (int)regionId), JsonRequestBehavior.AllowGet);
-            else
-                return Json(repository.Cities, JsonRequestBehavior.AllowGet);
-
+            return Json(new CommonData(repository).GetCities(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetStreets(int? cityId)
         {

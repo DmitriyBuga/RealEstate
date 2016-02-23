@@ -1,5 +1,6 @@
 ﻿using RealEstate.Models;
 using RealEstate.Models.Abstract;
+using RealEstate.Models.Concrete;
 using RealEstate.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -18,9 +19,18 @@ namespace RealEstate.Controllers
             repository = repo;
         }
         // GET: Estates
+        
         public ActionResult Table()
         {
-            return View();
+            CommonData commonData = new CommonData(repository);
+            TableModel tableModel = new TableModel
+            {
+                estates = CreateJSONEstate(repository.Estates),
+                users = commonData.GetUsers(),
+                regions = commonData.GetRegions(),
+                cities = commonData.GetCities()
+            };
+            return View(tableModel);
         }
         private List<EstatesJSON> CreateJSONEstate(IQueryable<Estates> estates)
         {
@@ -39,6 +49,7 @@ namespace RealEstate.Controllers
                     price = p.price,
                     user_name = p.Users.name,
                     user_id = p.user_id,
+                    city_id = p.city_id,
                     rooms = p.rooms,
                     type_op = p.type_op,
                     name_op = "Продам",
@@ -152,7 +163,6 @@ namespace RealEstate.Controllers
             modelEstate.listCity = new SelectList(repository.Cities.OrderBy(x => x.id), "Id", "Name");
             return View(modelEstate);
         }
-       
         public JsonResult _UploadImage(string uploadFiles)
         {
             return Json(uploadFiles, JsonRequestBehavior.AllowGet);

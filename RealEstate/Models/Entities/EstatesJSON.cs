@@ -5,6 +5,21 @@ using System.Web;
 
 namespace RealEstate.Models.Entities
 {
+    public class UsersJSON
+    {
+        public int id;
+        public string name;
+    }
+    public class CitiesJSON
+    {
+        public int id;
+        public string name;
+    }
+    public class RegionsJSON
+    {
+        public int id;
+        public string name;
+    }
     public class EstatesJSON
     {
         public int id { get; set; }
@@ -19,6 +34,7 @@ namespace RealEstate.Models.Entities
         public string user_name { get; set; }
         public string name_op { get; set; }
         public int user_id { get; set; }
+        public int? city_id { get; set; }
 
     }
 }

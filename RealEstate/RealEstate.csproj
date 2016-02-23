@@ -1011,6 +1011,7 @@
     <Compile Include="Models\Cities.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Concrete\CommonData.cs" />
     <Compile Include="Models\Concrete\EFDbContext.cs" />
     <Compile Include="Models\Concrete\EFRepository.cs" />
     <Compile Include="Models\Customers.cs">
@@ -1050,6 +1051,7 @@
     <Compile Include="Models\Streets.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>

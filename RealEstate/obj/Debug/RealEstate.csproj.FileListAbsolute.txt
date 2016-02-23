@@ -100,7 +100,6 @@ C:\VSProjects\RealEstate\RealEstate\bin\ru\System.Web.Webpages.Deployment.resour
 C:\VSProjects\RealEstate\RealEstate\bin\ru\System.Web.Webpages.Razor.resources.dll
 C:\VSProjects\RealEstate\RealEstate\bin\ru\System.Web.Helpers.resources.dll
 C:\VSProjects\RealEstate\RealEstate\bin\ru\System.Web.Mvc.resources.dll
-C:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
 C:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.dll
 C:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.pdb
 D:\VSPrj\RealEstate\RealEstate\bin\Newtonsoft.Json.dll
@@ -183,3 +182,17 @@ D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyRe
 D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.dll
 D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.pdb
 D:\VSPrj\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
+C:\VSProjects\RealEstate\RealEstate\bin\Antlr3.Runtime.dll
+C:\VSProjects\RealEstate\RealEstate\bin\Newtonsoft.Json.dll
+C:\VSProjects\RealEstate\RealEstate\bin\System.Net.Http.Formatting.dll
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.dll
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.WebHost.dll
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Optimization.dll
+C:\VSProjects\RealEstate\RealEstate\bin\WebGrease.dll
+C:\VSProjects\RealEstate\RealEstate\bin\Antlr3.Runtime.pdb
+C:\VSProjects\RealEstate\RealEstate\bin\Newtonsoft.Json.xml
+C:\VSProjects\RealEstate\RealEstate\bin\System.Net.Http.Formatting.xml
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.xml
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.WebHost.xml
+C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Optimization.xml
+C:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
