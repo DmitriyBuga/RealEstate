@@ -1075,6 +1075,7 @@
     <Content Include="Scripts\underscore.min.map" />
     <Content Include="Views\Directories\Regions.cshtml" />
     <Content Include="Views\Estates\EditEstate.cshtml" />
+    <Content Include="Views\Directories\Cities.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

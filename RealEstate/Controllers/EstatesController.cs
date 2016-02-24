@@ -28,7 +28,9 @@ namespace RealEstate.Controllers
                 estates = CreateJSONEstate(repository.Estates),
                 users = commonData.GetUsers(),
                 regions = commonData.GetRegions(),
-                cities = commonData.GetCities()
+                cities = commonData.GetCities(),
+                floors = commonData.GetFloors(),
+                rooms = commonData.GetRooms()
             };
             return View(tableModel);
         }
@@ -52,6 +54,7 @@ namespace RealEstate.Controllers
                     city_id = p.city_id,
                     rooms = p.rooms,
                     type_op = p.type_op,
+                    region_id = p.region_id,
                     name_op = "Продам",
                 });
 

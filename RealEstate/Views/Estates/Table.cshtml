@@ -1,5 +1,6 @@
 ﻿@model RealEstate.Models.TableModel
 @{
+    ViewBag.Title = "Таблица с недвижимостью";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <head>
@@ -19,12 +20,30 @@
             </div>
         </div>
         <div class="well-row col-md-4">
+            <div cmb-filter title='Выбор области' list="listRegion" selectedVar="selectedRegion" on-check-all="checkAll('listRegion', 'selectedRegion')"
+                 on-uncheck-all="uncheckAll('selectedRegion')" on-select-item="setSelected(id,'selectedRegion')"
+                 set-check-icon="isChecked(id,'selectedRegion')">
+            </div>
+        </div>
+        <div class="well-row col-md-4">
             <div cmb-filter title='Выбор города' list="listCity" selectedVar="selectedCity" on-check-all="checkAll('listCity', 'selectedCity')"
                     on-uncheck-all="uncheckAll('selectedCity')" on-select-item="setSelected(id,'selectedCity')"
                     set-check-icon="isChecked(id,'selectedCity')">
             </div>
         </div>
-        <input placeholder="Введите имя менеджера или адрес" type="text" name="id" ng-model="filterModel" class="well-row col-md-8">
+        <div class="well-row col-md-4">
+            <div cmb-filter title='Количество комнат' list="listRoom" selectedVar="selectedRoom" on-check-all="checkAll('listRoom', 'selectedRoom')"
+                 on-uncheck-all="uncheckAll('selectedRoom')" on-select-item="setSelected(id,'selectedRoom')"
+                 set-check-icon="isChecked(id,'selectedRoom')">
+            </div>
+        </div>
+        <div class="well-row col-md-3">
+            <div cmb-filter title='Этаж' list="listFloor" selectedVar="selectedFloor" on-check-all="checkAll('listFloor', 'selectedFloor')"
+                 on-uncheck-all="uncheckAll('selectedFloor')" on-select-item="setSelected(id,'selectedFloor')"
+                 set-check-icon="isChecked(id,'selectedFloor')">
+            </div>
+        </div>
+        <input placeholder="Введите имя менеджера или адрес" type="text" name="id" ng-model="filterModel" class="well-row col-md-4">
     </div>
     <div class="well row col-md-24">
         <div class="well row col-md-24" style="padding:1em">
@@ -100,7 +119,14 @@
                 @*
                     <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
                 *@
-                <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction| filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|customFilter:selectedUser:'user_id'|customFilter:selectedCity:'city_id')| pager:pager.currentPage:pager.getOnPage()">
+                <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction|
+                    filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|
+                    customFilter:selectedUser:'user_id'|
+                    customFilter:selectedRegion:'region_id'|
+                    customFilter:selectedCity:'city_id'|
+                    customFilter:selectedRoom:'rooms'|
+                    customFilter:selectedFloor:'floor')|
+                     pager:pager.currentPage:pager.getOnPage()">
 
                     <td>
                         {{estate.user_name}}
@@ -151,10 +177,12 @@
             <a href="" ng-click="gotoNextPage()" class="btn btn-default">next</a>
             <a href="" ng-click="gotoLastPage()" class="btn btn-default">Last page </a>
         </div>
-        <div class="well-row col-md-8">
-            <a href="/Estates/EditEstate/" class="btn btn-default">+</a>
+        <div class="well-row col-md-15">
         </div>
-    </div>
+        <div class="well-row col-md-1">
+            <a href="/Estates/EditEstate/" class="btn btn-info">+</a>
+        </div>
+        
 </div>
 
 

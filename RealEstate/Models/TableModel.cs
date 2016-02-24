@@ -9,8 +9,10 @@ namespace RealEstate.Models
     public class TableModel
     {
         public List<EstatesJSON> estates { get; set; }
-        public List<UsersJSON> users { get; set; }
-        public List<RegionsJSON> regions { get; set; }
-        public List<CitiesJSON> cities{ get; set; }
+        public List<CommonDirJSON> users { get; set; }
+        public List<CommonDirJSON> regions { get; set; }
+        public List<CommonDirJSON> cities{ get; set; }
+        public List<CommonDirJSON> floors { get; set; }
+        public List<CommonDirJSON> rooms { get; set; }
     }
 }

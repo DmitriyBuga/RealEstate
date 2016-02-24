@@ -39,18 +39,15 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     $scope.pageSize = 10;
     $scope.currentPage = 0;
     $scope.selectedUser = [];
+    $scope.selectedRegion = [];
     $scope.selectedCity = [];
+    $scope.selectedFloor = [];
+    $scope.selectedRoom = [];
     $scope.filtered = [];
     $scope.estates = [];
     $scope.itemsOnPage = 10;
-    //GetAllEstates();
-    //setListCities();
-    //setListRegions();
-    //setListUsers();
-    $scope.estates = [];
-    $scope.listCity = [];
-    $scope.listRegions = [];
-    $scope.listUser = [];
+    
+    
     $scope.sortReverse = false;
     $scope.sortType = 'ID'
     $scope.tableHeaders = {};
@@ -59,7 +56,9 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     $scope.estates = viewModel.estates;
     $scope.listCity = viewModel.cities;
     $scope.listUser = viewModel.users;
-    $scope.listRegions = viewModel.regions;
+    $scope.listRoom = viewModel.rooms;
+    $scope.listFloor = viewModel.floors
+    $scope.listRegion = viewModel.regions;
     $scope.order = {
         header: null,
         direction: false
@@ -144,29 +143,7 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         $scope.pager.update(list.length);
     });
     
-    function setListRegions() {
-        var getData = angularService.getRegions();
-        getData.then(function(data)
-        {
-            $scope.listRegions = data.data;
-        }, function () {
-            //alert('Error in getting records');
-        });
-    }
-    function setListUsers() {
-        var getData = angularService.getUsers();
-        getData.then(function (data) {
-            $scope.listUser = data.data
-        }, function () { }
-        );
-    }
-    function setListCities() {
-        var getData = angularService.getCities();
-        getData.then(function (data) {
-            $scope.listCity = data.data
-        }, function () { }
-        );
-    }
+    
     
     $scope.setSelected = function (id, sList) {
         if (_.contains($scope[sList], id)) {
@@ -199,14 +176,7 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     $scope.checkAll = function (sList, sSelected) {
         $scope[sSelected] = _.pluck($scope[sList], 'id');
     };
-    function GetAllEstates() {
-        var getData = angularService.GetAllEstates();
-        getData.then(function (est) {
-            $scope.estates = est.data;
-        }, function () {
-            //alert('Error in getting records');
-        });
-    }
+    
     $scope.deleteEstate = function (estateId) {
         var getData = angularService.deleteEstate(estateId);
         var currentIndex = _.findIndex($scope.estates, { id: estateId });
@@ -220,67 +190,41 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         );
     }
 });
-app.controller("dirController", function ($scope, angularService) {
-    $scope.setDirectory = function (dir) {
-        $scope.directory = dir;
-    }
-    $scope.setValue = function (index) {
-        $scope.regions[index] = 'asassdsd';
-    }
-    $scope.directory = '';
+app.controller("dirController", function ($scope, angularService, viewModel) {
+    
+    $scope.directory = viewModel.tableName;
     $scope.record = { name: '' };
     $scope.delete = function (id) {
-        angularService.dir_delete("Regions",id);
+        angularService.dir_delete($scope.directory, id);
         var currentIndex = _.findIndex($scope.regions, { id: id });
         $scope.regions.splice(currentIndex, 1);
     }
     $scope.update = function (id, name, index) {
         if (id == -1) {
-            var getData = angularService.dir_createRecord('Regions', { id: id, name: name });
+            var getData = angularService.dir_createRecord($scope.directory, { id: id, name: name });
             getData.then(function (regions) {
                 $scope.regions[index] = regions.data;
             });
         }
         else {
-            var getData = angularService.dir_updateRecord('Regions', { id: id, name: name });
+            var getData = angularService.dir_updateRecord($scope.directory, { id: id, name: name });
         }
     }
     $scope.add = function () {
         var region = {id:-1, name:''}
         $scope.regions.push(region);
     }
-    $scope._add = function (directory, name) {
+    $scope._add = function (name) {
         $scope.record.name = name;
-        angularService.dir_createRecord(directory, $scope.record);
+        angularService.dir_createRecord($scope.directory, $scope.record);
     }
-    $scope.setRegions = function () {
-        var getData = angularService.getRegions();
-        
+    $scope.setRegions = function (tableName) {
+        var getData = angularService.getRegions($scope.directory);
         getData.then(function (regions) {
-            debugger
+            
             $scope.regions = regions.data;
         });
     }
-    $scope.setCities = function () {
-        var getData = angularService.getCities(regionId);
-        getData.then(function (cities) {
-            $scope.cities = cities.data;
-        });
-    }
-    $scope.setDistricts = function () {
-        var getData = angularService.getDistricts(cityId);
-        getData.then(function (districts) {
-            $scope.districts = districts.data;
-        });
-    }
-    $scope.setStreets = function () {
-        var getData = angularService.getStreets(cityId);
-        getData.then(function (streets) {
-            $scope.streets = streets.data;
-        });
-    }
-        
-
 });
 app.controller("estateEditController", function ($scope, angularService) {
     $scope.myInterval = 500;

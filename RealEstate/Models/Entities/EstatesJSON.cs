@@ -5,20 +5,21 @@ using System.Web;
 
 namespace RealEstate.Models.Entities
 {
-    public class UsersJSON
+    public interface IDirectories
     {
-        public int id;
-        public string name;
+        int id { get; set; }
+        string name { get; set; }
     }
-    public class CitiesJSON
+
+    public class DirectoriesModel
     {
-        public int id;
-        public string name;
+        public string tableName { get; set; }
+        public string title { get; set; }
     }
-    public class RegionsJSON
+    public class CommonDirJSON : IDirectories
     {
-        public int id;
-        public string name;
+        public int id { get; set; }
+        public string name { get; set; }
     }
     public class EstatesJSON
     {
@@ -35,6 +36,7 @@ namespace RealEstate.Models.Entities
         public string name_op { get; set; }
         public int user_id { get; set; }
         public int? city_id { get; set; }
+        public int? region_id { get; set; }
 
     }
 }

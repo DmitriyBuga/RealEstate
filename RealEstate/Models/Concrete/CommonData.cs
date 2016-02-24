@@ -14,25 +14,40 @@ namespace RealEstate.Models.Concrete
         {
             repository = repo;
         }
-        public List<UsersJSON> GetUsers()
+        public List<CommonDirJSON> GetRooms()
         {
-            List<UsersJSON> users = new List<UsersJSON>();
+            List<CommonDirJSON> floors = new List<CommonDirJSON>();
+            foreach (int reg in repository.Estates.Select(x => x.rooms).Distinct())
+                floors.Add(new CommonDirJSON() { id = reg, name = reg.ToString() });
+            return floors;
+        }
+        public List<CommonDirJSON> GetFloors()
+        {
+            List<CommonDirJSON> floors = new List<CommonDirJSON>();
+            int id = 0;
+            foreach (string reg in repository.Estates.Select(x => x.floor.ToString() + "/" + x.floors.ToString()).Distinct())
+                floors.Add(new CommonDirJSON() { id = id++, name = reg.ToString() });    
+            return floors;
+        }
+        public List<CommonDirJSON> GetUsers()
+        {
+            List<CommonDirJSON> users = new List<CommonDirJSON>();
             foreach (Users reg in repository.Users)
-                users.Add(new UsersJSON() { id = reg.id, name = reg.name });
+                users.Add(new CommonDirJSON() { id = reg.id, name = reg.name });
             return users;
         }
-        public List<RegionsJSON> GetRegions()
+        public List<CommonDirJSON> GetRegions()
         {
-            List<RegionsJSON> regions = new List<RegionsJSON>();
+            List<CommonDirJSON> regions = new List<CommonDirJSON>();
             foreach (Regions reg in repository.Regions)
-                regions.Add(new RegionsJSON() { id = reg.id, name = reg.name });
+                regions.Add(new CommonDirJSON() { id = reg.id, name = reg.name });
             return regions;
         }
-        public List<CitiesJSON> GetCities()
+        public List<CommonDirJSON> GetCities()
         {
-            List<CitiesJSON> regions = new List<CitiesJSON>();
+            List<CommonDirJSON> regions = new List<CommonDirJSON>();
             foreach (Cities reg in repository.Cities)
-                regions.Add(new CitiesJSON() { id = reg.id, name = reg.name });
+                regions.Add(new CommonDirJSON() { id = reg.id, name = reg.name });
             return regions;
 
         }

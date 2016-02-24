@@ -34,10 +34,13 @@
                     @Html.ActionLink("Недвижимость", "Table", "Estates")
                 </li>
                 <li>
-                    @Html.ActionLink("Справочник областей", "Regions", "Directories")
+                    @Html.ActionLink("Справочник областей", "Regions", "Directories", new { tableName = "Regions", title = "Справочник областей" }, null)
                 </li>
                 <li>
-                    @Html.ActionLink("Справочник городов", "Cities", "Directories")
+                    @Html.ActionLink("Справочник городов", "Regions", "Directories", new { tableName = "Cities", title = "Справочник городов" }, null)
+                </li>
+                <li>
+                    @Html.ActionLink("Справочник районов", "Districts", "Directories")
                 </li>
                 <li>
                     @Html.ActionLink("Справочник улиц", "Streets", "Directories")
@@ -46,7 +49,7 @@
             }
             else
             {
-                <div style="width:100%;height:4em;background-color:black;">
+                <li style="width:100%;height:4em;background-color:black;">
                     <div style="float:right;padding:15px;font-size: 18px;width:150px;">
                         <text style="color:white;">Hello, @Session["UserName"]</text>
                     </div>
@@ -59,7 +62,7 @@
                     <div style="float:left;padding:15px;font-size: 18px;width:150px;">
                         @Html.ActionLink("TicketList", "ViewTickets", "Staff")
                     </div>
-                </div>
+                </li>
             }
         </ul>
     </nav>

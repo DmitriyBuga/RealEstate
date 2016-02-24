@@ -2,7 +2,7 @@
     this.dir_createRecord = function (directory, record) {
         var responce = $http({
             method: "POST",
-            url: "/Directories/CreateRegion",
+            url: "/Directories/Create" + directory,
             params: { name: record.name },
             dataType:"JSON"
         });
@@ -11,49 +11,27 @@
     this.dir_delete = function (directory, id) {
         var responce = $http({
             method: "POST",
-            url: "/Directories/DeleteRegion",
+            url: "/Directories/Delete" + directory,
             params: { id: JSON.stringify(id)},
         });
         return responce;
     }
     this.dir_updateRecord = function (directory, record) {
+        
         var responce = $http({
             method: "POST",
-            url: "/Directories/UpdateRegion",
+            url: "/Directories/Update" + directory,
             params: { id: record.id, name: record.name },
         });
         return responce;
     }
     
-    this.getRegions = function () {
-        return $http.get("/Directories/GetRegions")
+    this.getRegions = function (directory) {
+        
+        return $http.get("/Directories/Get" + directory)
     }
-    this.getUsers = function () {
-        return $http.get("/Directories/GetUsers")
-    }
-    this.getCities = function () {
-        return $http.get("/Directories/GetCities")
-    }
-    /*
-    this.getCities = function (regionId) {
-        var responce = $http({
-            method: "POST",
-            url: "/Directories/GetCities",
-            params: { regionId: JSON.stringify(regionId) },
-            dataType:"JSON"
-        });
-        return responce;
-    }
-    */
-    this.getStreets = function (cityId) {
-        var responce = $http({
-            method: "POST",
-            url: "/Directories/GetStreets",
-            params: { regionId: JSON.stringify(cityId) },
-            dataType: "JSON"
-        });
-        return responce;
-    }
+    
+    
     this.deleteEstate = function (estateId) {
         var responce = $http({
             method: "GET",
