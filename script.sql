@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [RealEstate]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Database [RealEstate]    Script Date: 24.02.2016 17:02:37 ******/
 CREATE DATABASE [RealEstate]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -75,7 +75,7 @@ ALTER DATABASE [RealEstate] SET TARGET_RECOVERY_TIME = 0 SECONDS
 GO
 USE [RealEstate]
 GO
-/****** Object:  Table [dbo].[Cities]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Cities]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -91,7 +91,7 @@ CREATE TABLE [dbo].[Cities](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Customers]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Customers]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -112,7 +112,7 @@ CREATE TABLE [dbo].[Customers](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Districts]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Districts]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -129,7 +129,7 @@ CREATE TABLE [dbo].[Districts](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Estates]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Estates]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -167,7 +167,7 @@ CREATE TABLE [dbo].[Estates](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Regions]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Regions]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -182,7 +182,7 @@ CREATE TABLE [dbo].[Regions](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -197,7 +197,7 @@ CREATE TABLE [dbo].[Role](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Streets]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Streets]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[Streets](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 19.02.2016 16:53:35 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 24.02.2016 17:02:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -241,6 +241,10 @@ INSERT [dbo].[Cities] ([id], [name], [region_id]) VALUES (1, N'Днепропетровск', 
 INSERT [dbo].[Cities] ([id], [name], [region_id]) VALUES (2, N'Днепродзержинск', 2)
 INSERT [dbo].[Cities] ([id], [name], [region_id]) VALUES (3, N'Павлоград', 2)
 SET IDENTITY_INSERT [dbo].[Cities] OFF
+SET IDENTITY_INSERT [dbo].[Districts] ON 
+
+INSERT [dbo].[Districts] ([id], [city_id], [region_id], [name]) VALUES (6, 1, 0, N'sdfsdffsdfdf')
+SET IDENTITY_INSERT [dbo].[Districts] OFF
 SET IDENTITY_INSERT [dbo].[Estates] ON 
 
 INSERT [dbo].[Estates] ([id], [cust_id], [user_id], [manager_id], [type_op], [type_estate], [descr], [floors], [floor], [rooms], [square], [price], [region], [city], [district], [street], [building], [apt], [city_id], [region_id], [datainput], [dstart], [dend], [isempty], [district_id]) VALUES (1, 2, 1, 1, 1, 1, N'продам хауз', 5, 3, 3, 55, 445, N'Днепропетровская', N'Днепропетровск', N'Бабушкинский', N'ул. Ленина', N'55        ', NULL, 1, 1, CAST(N'2016-01-01 00:00:00' AS SmallDateTime), NULL, NULL, NULL, NULL)
@@ -301,7 +305,6 @@ INSERT [dbo].[Regions] ([id], [name]) VALUES (2, N'Днепропетровская')
 INSERT [dbo].[Regions] ([id], [name]) VALUES (3, N'Запорожская')
 INSERT [dbo].[Regions] ([id], [name]) VALUES (4, N'Львовская')
 INSERT [dbo].[Regions] ([id], [name]) VALUES (5, N'Киевская')
-INSERT [dbo].[Regions] ([id], [name]) VALUES (7, N'')
 SET IDENTITY_INSERT [dbo].[Regions] OFF
 SET IDENTITY_INSERT [dbo].[Users] ON 
 
@@ -309,6 +312,11 @@ INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department
 INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department_id], [role_id], [firstname], [lastname]) VALUES (1, N'user1', N'saUser', N'123qwe', N'0', NULL, 2, NULL, NULL)
 INSERT [dbo].[Users] ([id], [name], [login], [password], [position], [department_id], [role_id], [firstname], [lastname]) VALUES (2, N'sa11', N'sa11', N'123qwe', N'', NULL, 2, NULL, NULL)
 SET IDENTITY_INSERT [dbo].[Users] OFF
+ALTER TABLE [dbo].[Districts]  WITH CHECK ADD  CONSTRAINT [FK_Districts_Cities] FOREIGN KEY([city_id])
+REFERENCES [dbo].[Cities] ([id])
+GO
+ALTER TABLE [dbo].[Districts] CHECK CONSTRAINT [FK_Districts_Cities]
+GO
 ALTER TABLE [dbo].[Estates]  WITH CHECK ADD  CONSTRAINT [FK_Estates_Cities] FOREIGN KEY([city_id])
 REFERENCES [dbo].[Cities] ([id])
 GO

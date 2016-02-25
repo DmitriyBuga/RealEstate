@@ -1,4 +1,21 @@
 ﻿app.service("angularService", function ($http) {
+    this.dir_createDistrict = function (record) {
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/CreateDistrict",
+            params: {id:-1, name: record.name, city_id: record.city_id },
+            dataType:JSON
+        });
+    }
+    this.dir_updateDistrict = function (record) {
+
+        var responce = $http({
+            method: "POST",
+            url: "/Directories/UpdateDistrict",
+            params: { id: record.id, name: record.name, city_id: record.city_id },
+        });
+        return responce;
+    }
     this.dir_createRecord = function (directory, record) {
         var responce = $http({
             method: "POST",

@@ -5,14 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="1bd1b29b46c149f0a8d180dfa6d37216" Name="Diagram1" ZoomLevel="78">
-        <EntityTypeShape EntityType="RealEstateModel.Cities" Width="1.5" PointX="0.75" PointY="6.875" />
-        <EntityTypeShape EntityType="RealEstateModel.Customers" Width="1.5" PointX="5.75" PointY="1.5" />
-        <EntityTypeShape EntityType="RealEstateModel.Districts" Width="1.5" PointX="5.75" PointY="4.5" />
-        <EntityTypeShape EntityType="RealEstateModel.Estates" Width="1.5" PointX="3" PointY="1.875" />
-        <EntityTypeShape EntityType="RealEstateModel.Regions" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="RealEstateModel.Role" Width="1.5" PointX="5.75" PointY="7.5" />
-        <EntityTypeShape EntityType="RealEstateModel.Streets" Width="1.5" PointX="7.75" PointY="1.5" />
-        <EntityTypeShape EntityType="RealEstateModel.Users" Width="1.5" PointX="0.75" PointY="3.375" />
+        <EntityTypeShape EntityType="RealEstateModel.Cities" Width="1.5" PointX="0.75" PointY="4.875" />
+        <EntityTypeShape EntityType="RealEstateModel.Customers" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RealEstateModel.Districts" Width="1.5" PointX="3" PointY="12" />
+        <EntityTypeShape EntityType="RealEstateModel.Estates" Width="1.5" PointX="3" PointY="2.625" />
+        <EntityTypeShape EntityType="RealEstateModel.Regions" Width="1.5" PointX="0.75" PointY="2.25" />
+        <EntityTypeShape EntityType="RealEstateModel.Role" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="RealEstateModel.Streets" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="RealEstateModel.Users" Width="1.5" PointX="0.75" PointY="8.5" />
+        <AssociationConnector Association="RealEstateModel.FK_Districts_Cities" />
         <AssociationConnector Association="RealEstateModel.FK_Estates_Cities" />
         <AssociationConnector Association="RealEstateModel.FK_Estates_Regions" />
         <AssociationConnector Association="RealEstateModel.FK_Estates_Users" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RealEstate.Models.Entities
 {
@@ -10,7 +11,18 @@ namespace RealEstate.Models.Entities
         int id { get; set; }
         string name { get; set; }
     }
-
+    public class DistrictsModel
+    {
+        public List<DistrictJSON> districts { get; set; }
+        public List<CommonDirJSON> listCity { get; set; }
+    }
+    public class DistrictJSON
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public int city_id { get; set; }
+        public string city_name { get; set; }
+    }
     public class DirectoriesModel
     {
         public string tableName { get; set; }

@@ -1,0 +1,58 @@
+﻿@model RealEstate.Models.Entities.DistrictsModel
+
+@{
+    ViewBag.Title = "Справочник районов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div ng-controller="dirDistrictsController">
+    <script type="text/javascript">
+        var model = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(this.Model));
+        app.value("viewModel", model);
+    </script>
+    <div class="well row col-md-12">
+       
+        <div class="well-row col-md-12">
+            <p class="h4"><b>Справочник районов</b></p>
+        </div>
+            
+        <div class="well-row col-md-12">
+            <div cmb-filter title='Выбор города' list="listCity" selectedVar="selectedCity" on-check-all="checkAll('listCity', 'selectedCity')"
+                    on-uncheck-all="uncheckAll('selectedCity')" on-select-item="setSelected(id,'selectedCity')"
+                    set-check-icon="isChecked(id,'selectedCity')">
+            </div>
+        </div>
+        <table cellpadding="3" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td width="5%"><b>Код</b></td>
+                    <td width="30%"><b>Район</b></td>
+                    <td width="30%"><b>Город</b></td>
+                    <td width="35%"><b></b></td>
+                </tr>
+            </thead>
+
+            <tr ng-repeat="district in filtered = (districts|customFilter:selectedCity:'city_id')">
+                <td>{{district.id}}</td>
+                <td>
+                    <input type="text" ng-model="district.name" value={{district.name}} style="width:100%" />
+                </td>
+                <td>
+                    <select id="sel" class="input-block-level" ng-model="district.city_id" ng-options="obj.id as obj.name for obj in listCity">
+                        <option value=""></option>
+                    </select>
+
+                </td>
+                <td>
+                    <span ng-click="update(district.id, district.name, district.city_id, $index)" class="btn btn-default">Сохранить</span>
+                    <span ng-click="delete(district.id)" class="btn btn-danger">Удалить</span>
+                </td>
+            </tr>
+        </table>
+        <div class="well-row col-md-2">
+            <span ng-click="add(name)" type="button" class="btn btn-primary">
+                <span class="glyphicon glyphicon-plus"></span>
+            </span>
+        </div>
+    </div>
+    
+</div>

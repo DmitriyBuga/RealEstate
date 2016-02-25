@@ -96,6 +96,18 @@
     <Property Name="firstname" Type="nvarchar" MaxLength="50" />
     <Property Name="lastname" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <Association Name="FK_Districts_Cities">
+    <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+    <End Role="Districts" Type="Self.Districts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Districts">
+        <PropertyRef Name="city_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Estates_Cities">
     <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
     <End Role="Estates" Type="Self.Estates" Multiplicity="*" />
@@ -141,6 +153,10 @@
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Streets" EntityType="Self.Streets" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Districts_Cities" Association="Self.FK_Districts_Cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Districts" EntitySet="Districts" />
+    </AssociationSet>
     <AssociationSet Name="FK_Estates_Cities" Association="Self.FK_Estates_Cities">
       <End Role="Cities" EntitySet="Cities" />
       <End Role="Estates" EntitySet="Estates" />

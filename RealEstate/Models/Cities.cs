@@ -17,6 +17,7 @@ namespace RealEstate.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Cities()
         {
+            this.Districts = new HashSet<Districts>();
             this.Estates = new HashSet<Estates>();
         }
     
@@ -24,6 +25,8 @@ namespace RealEstate.Models
         public string name { get; set; }
         public int region_id { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Districts> Districts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Estates> Estates { get; set; }
     }

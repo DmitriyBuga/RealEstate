@@ -19,6 +19,24 @@ namespace RealEstate.Controllers
         {
             repository = repo;
         }
+        public ViewResult Districts()
+        {
+            CommonData commonData = new CommonData(repository);
+            List<DistrictJSON> districts = new List<DistrictJSON>();
+            foreach (Districts district in repository.Districts)
+                districts.Add(new DistrictJSON {
+                    id = district.id,
+                    name = district.name,
+                    city_id = district.city_id,
+                    city_name = district.Cities.name
+                });
+            DistrictsModel districtsModel = new DistrictsModel
+            {
+                districts = districts,
+                listCity = commonData.GetCities()
+            };
+            return View(districtsModel);
+        }
         public ViewResult Streets()
         {
             return View();
@@ -68,6 +86,24 @@ namespace RealEstate.Controllers
             dbEntry.name = name;
             repository.CreateRecord<Regions>(dbEntry);
             return Json(dbEntry, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CreateDistrict(int id, string name, int city_id)
+        {
+            Districts dbEntry = new Districts();
+            dbEntry.name = name;
+            dbEntry.city_id = city_id;
+            dbEntry.Cities = repository.Cities.FirstOrDefault(x => x.id == dbEntry.city_id);
+            //dbEntry.city_name = dbEntry.Cities.name;
+            repository.CreateRecord<Districts>(dbEntry);
+            return Json(dbEntry, JsonRequestBehavior.AllowGet);
+        }
+        public void UpdateDistrict(int id, string name, int city_id)
+        {
+            Districts dbEntry = repository.Districts.FirstOrDefault(x => x.id == id);
+            dbEntry.name = name;
+            dbEntry.city_id = city_id;
+            repository.UpdateRecord<Districts>(dbEntry);
         }
         public void UpdateRegions(int id, string name)
         {

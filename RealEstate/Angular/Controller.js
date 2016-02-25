@@ -1,4 +1,5 @@
-﻿function HightlightMemu(path, cur_url) {
+﻿
+function HightlightMemu(path, cur_url) {
     //навешиваем события по наведению мыши  
     jQuery(path).each(function () {
         jQuery(this).mouseover(function () { jQuery(this).parent('li').addClass('active'); });
@@ -34,6 +35,7 @@ function initMenu() {
 jQuery(document).ready(function () {
     initMenu();
 });
+
 app.controller("estatesTblController", function ($scope, $filter, angularService, viewModel) {
     
     $scope.pageSize = 10;
@@ -154,14 +156,7 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         //$scope.search();
         return false;
     }
-    $scope.isCheckedUser = function (id) {
-        if (_.contains($scope.selectedUser, id)) {
-            return 'glyphicon glyphicon-ok';
-        }
-        else {
-            return '';
-        }
-    }
+    
     $scope.isChecked = function (id, sList) {
         if (_.contains($scope[sList], id)) {
             return 'glyphicon glyphicon-ok';
@@ -190,6 +185,56 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         );
     }
 });
+app.controller("dirDistrictsController", function ($scope, angularService, viewModel) {
+    $scope.listCity = viewModel.listCity;
+    $scope.districts = viewModel.districts;
+    $scope.selectedCity = [];
+    $scope.record = { name: '' };
+    $scope.delete = function (id) {
+        angularService.dir_delete($scope.directory, id);
+        var currentIndex = _.findIndex($scope.districts, { id: id });
+        $scope.districts.splice(currentIndex, 1);
+    }
+    $scope.setSelected = function (id, sList) {
+        if (_.contains($scope[sList], id)) {
+            $scope[sList] = _.without($scope[sList], id);
+        } else {
+            $scope[sList].push(id);
+        }
+        //$scope.search();
+        return false;
+    }
+
+    $scope.isChecked = function (id, sList) {
+        if (_.contains($scope[sList], id)) {
+            return 'glyphicon glyphicon-ok';
+        }
+        else {
+            return '';
+        }
+    }
+    $scope.uncheckAll = function (sSelected) {
+        $scope[sSelected] = [];
+    }
+    $scope.checkAll = function (sList, sSelected) {
+        $scope[sSelected] = _.pluck($scope[sList], 'id');
+    };
+    $scope.update = function (id, name, city_id, index) {
+        if (id == -1) {
+            var getData = angularService.dir_createDistrict({ id: id, name: name, city_id: city_id });
+            getData.then(function (districts) {
+                $scope.districts[index] = districts.data;
+            });
+        }
+        else {
+            var getData = angularService.dir_updateDistrict( { id: id, name: name, city_id: city_id });
+        }
+    }
+    $scope.add = function () {
+        var district = { id: -1, name: '', city_id: 0 }
+        $scope.districts.push(district);
+    }
+});
 app.controller("dirController", function ($scope, angularService, viewModel) {
     
     $scope.directory = viewModel.tableName;
@@ -213,10 +258,6 @@ app.controller("dirController", function ($scope, angularService, viewModel) {
     $scope.add = function () {
         var region = {id:-1, name:''}
         $scope.regions.push(region);
-    }
-    $scope._add = function (name) {
-        $scope.record.name = name;
-        angularService.dir_createRecord($scope.directory, $scope.record);
     }
     $scope.setRegions = function (tableName) {
         var getData = angularService.getRegions($scope.directory);

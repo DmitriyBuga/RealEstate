@@ -8,37 +8,7 @@
     };
 })
 app.filter('customFilter', function () {
-    return function (estates, selected, id_name) {
-        
-/*        var pars = [[selectedUser,'user_id'], [selectedCity, 'city_id']];
-        if (!angular.isUndefined(estates))
-        {
-            
-            var tempEstates = [];
-            angular.forEach(estates, function (estate) {
-                var flg = false;
-                foreach(par in pars)
-                {
-                    if (!angular.isUndefined(par[0]) && par[0].length > 0) {
-                        if (!angular.equals(estate[par[1]], id)) {
-                            flg = true;
-                        }
-                    }
-                }
-                if (!flg) {
-                    tempClients.push(estate);
-                }
-            });
-            if (tempEstates.length == 0)
-                return estates;
-            else
-                return tempEstates;
-        } else {
-            return estates;
-        }
-    };
-})*/
-        
+    return function (estates, selected, id_name) {        
         if (!angular.isUndefined(estates) && !angular.isUndefined(selected) && selected.length > 0) {
             var tempEstates = [];
             angular.forEach(selected, function (id) {

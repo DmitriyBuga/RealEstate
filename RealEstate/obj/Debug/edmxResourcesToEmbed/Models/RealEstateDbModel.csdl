@@ -9,6 +9,10 @@
     <EntitySet Name="Role" EntityType="RealEstateModel.Role" />
     <EntitySet Name="Streets" EntityType="RealEstateModel.Streets" />
     <EntitySet Name="Users" EntityType="RealEstateModel.Users" />
+    <AssociationSet Name="FK_Districts_Cities" Association="RealEstateModel.FK_Districts_Cities">
+      <End Role="Cities" EntitySet="Cities" />
+      <End Role="Districts" EntitySet="Districts" />
+    </AssociationSet>
     <AssociationSet Name="FK_Estates_Cities" Association="RealEstateModel.FK_Estates_Cities">
       <End Role="Cities" EntitySet="Cities" />
       <End Role="Estates" EntitySet="Estates" />
@@ -29,6 +33,7 @@
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="region_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Districts" Relationship="RealEstateModel.FK_Districts_Cities" FromRole="Cities" ToRole="Districts" />
     <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_Estates_Cities" FromRole="Cities" ToRole="Estates" />
   </EntityType>
   <EntityType Name="Customers">
@@ -52,6 +57,7 @@
     <Property Name="city_id" Type="Int32" Nullable="false" />
     <Property Name="region_id" Type="Int32" Nullable="false" />
     <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Cities" Relationship="RealEstateModel.FK_Districts_Cities" FromRole="Districts" ToRole="Cities" />
   </EntityType>
   <EntityType Name="Estates">
     <Key>
@@ -124,6 +130,18 @@
     <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Estates" Relationship="RealEstateModel.FK_Estates_Users" FromRole="Users" ToRole="Estates" />
   </EntityType>
+  <Association Name="FK_Districts_Cities">
+    <End Type="RealEstateModel.Cities" Role="Cities" Multiplicity="1" />
+    <End Type="RealEstateModel.Districts" Role="Districts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Districts">
+        <PropertyRef Name="city_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Estates_Cities">
     <End Type="RealEstateModel.Cities" Role="Cities" Multiplicity="0..1" />
     <End Type="RealEstateModel.Estates" Role="Estates" Multiplicity="*" />
