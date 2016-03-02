@@ -33,7 +33,7 @@ app.filter("filterByFields", function () {
      * @param items - список имен полей, по которым идет поиск
      */
     return function (items, search, fields) {
-
+        //fields = ['user_name', 'region', 'city', 'street', 'district'];
         if (!search)
             return items;
         if (fields.length == 0)

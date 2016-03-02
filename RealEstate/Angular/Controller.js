@@ -37,7 +37,7 @@ jQuery(document).ready(function () {
 });
 
 app.controller("estatesTblController", function ($scope, $filter, angularService, viewModel) {
-    
+    $scope.filterFields = [];
     $scope.pageSize = 10;
     $scope.currentPage = 0;
     $scope.selectedUser = [];

@@ -10,49 +10,41 @@
     <title>Вход в систему</title>
 </head>
 <body>
-    <h2>Вход в систему</h2>
-    <p>Введите свой логин и пароль для входа в систему</p>
+    <div class="well-row">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "well-row col-md-12" }))
+        {
+            <div class="row">
+                <div class="well row col-md-24">
+                    <div style="width:100%" class="well-row col-md-24">
+                        <p class="h4" style="width:100%"><b>Вход в систему</b></p>
+                        <p>Введите свой логин и пароль для входа в систему</p>
+                    </div>
+                    <div style="width:100%" class="well row col-md-24">
+                        <div style="width:100%" class="well-row col-md-24">
+                            @Html.ValidationSummary(true)
+                            @Html.LabelFor(model => model.UserName, new { @style = "width:100%" })
+                            @Html.EditorFor(model => model.UserName, new { @style = "width:100%" })
+                            @Html.ValidationMessageFor(model => model.UserName)
+                            <p>
+                                @Html.LabelFor(model => model.Password, new { @style = "width:100%" })
+                                @Html.EditorFor(model => model.Password, new { @style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </p>
+                                @Html.LabelFor(model => model.RememberMe, new { @style = "width:100%" })
+                                @Html.EditorFor(model => model.RememberMe, new { @style = "width:100%" })
+                            <p>
+                                @Html.LabelFor(model => model.NewUser, new { @style = "width:100%" })
+                                @Html.EditorFor(model => model.NewUser, new { @style = "width:100%" })
+                            </p>
+                            <p> 
+                                <input type="submit" value="Войти" />
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary(true)
-
-        <fieldset>
-            <legend>Войти в систему</legend>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.UserName)
             </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.UserName)
-                @Html.ValidationMessageFor(model => model.UserName)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.Password)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-
-            <div class="editor-label">
-                @Html.LabelFor(model => model.RememberMe)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.RememberMe)
-            </div>
-            <div class="editor-label">
-                @Html.LabelFor(model => model.NewUser)
-            </div>
-            <div class="editor-field">
-                @Html.EditorFor(model => model.NewUser)
-            </div>
-
-            <p>
-                <input type="submit" value="Войти" />
-            </p>
-        </fieldset>
-    }
+        }
+    </div>
 </body>
 </html>

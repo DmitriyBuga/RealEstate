@@ -22,6 +22,7 @@ namespace RealEstate.Controllers
         
         public ActionResult Table()
         {
+            
             CommonData commonData = new CommonData(repository);
             TableModel tableModel = new TableModel
             {

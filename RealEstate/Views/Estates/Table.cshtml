@@ -120,7 +120,7 @@
                     <tr ng-repeat="estate in  filtered = (estates | setFilter:selectedUser:selectedCity) | orderBy:sortType:sortReverse">
                 *@
                 <tr ng-repeat="estate in filtered = (estates |orderBy:order.header:order.direction|
-                    filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name']|
+                    filter: {user_name:prefixModel}|filterByFields:filterModel:['user_name','region','city','street','district']|
                     customFilter:selectedUser:'user_id'|
                     customFilter:selectedRegion:'region_id'|
                     customFilter:selectedCity:'city_id'|
