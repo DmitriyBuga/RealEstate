@@ -35,16 +35,45 @@ function initMenu() {
 jQuery(document).ready(function () {
     initMenu();
 });
-
-app.controller("estatesTblController", function ($scope, $filter, angularService, viewModel) {
-    $scope.filterFields = [];
-    $scope.pageSize = 10;
-    $scope.currentPage = 0;
+function estatesBaseController($scope, $filter, angularService, viewModel) {
     $scope.selectedUser = [];
     $scope.selectedRegion = [];
     $scope.selectedCity = [];
     $scope.selectedFloor = [];
     $scope.selectedRoom = [];
+    estatesBaseController.prototype.uncheckAll = function (sSelected) {
+        //$scope.$$ChildScope.prototype[sSelected] = [];
+        $scope[sSelected] = [];
+    }
+    estatesBaseController.prototype.isChecked = function (id, sList) {
+
+        if (_.contains($scope[sList], id)) {
+            return 'glyphicon glyphicon-ok';
+        }
+        else {
+            return '';
+        }
+    }
+    estatesBaseController.prototype.checkAll = function (sList, sSelected) {
+        $scope[sSelected] = _.pluck($scope[sList], 'id');
+    }
+    estatesBaseController.prototype.setSelected = function (id, sList) {
+        if (_.contains($scope[sList], id)) {
+            $scope[sList] = _.without($scope[sList], id);
+        } else {
+            $scope[sList].push(id);
+        }
+        //$scope.search();
+        return false;
+    }
+}
+app.controller("estatesTblController", function ($scope, $filter, angularService, viewModel) {
+    estatesBaseController.call(this, $scope, $filter, angularService, viewModel);
+    $scope.prototype = Object.create(estatesBaseController.prototype);
+    $scope.filterFields = [];
+    $scope.pageSize = 10;
+    $scope.currentPage = 0;
+    
     $scope.filtered = [];
     $scope.estates = [];
     $scope.itemsOnPage = 10;
@@ -144,34 +173,6 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     $scope.$watchCollection("filtered", function (list) {
         $scope.pager.update(list.length);
     });
-    
-    
-    
-    $scope.setSelected = function (id, sList) {
-        if (_.contains($scope[sList], id)) {
-            $scope[sList] = _.without($scope[sList], id);
-        } else {
-            $scope[sList].push(id);
-        }
-        //$scope.search();
-        return false;
-    }
-    
-    $scope.isChecked = function (id, sList) {
-        if (_.contains($scope[sList], id)) {
-            return 'glyphicon glyphicon-ok';
-        }
-        else {
-            return'';
-        }
-    }
-    $scope.uncheckAll = function (sSelected) {
-        $scope[sSelected] = [];
-    }
-    $scope.checkAll = function (sList, sSelected) {
-        $scope[sSelected] = _.pluck($scope[sList], 'id');
-    };
-    
     $scope.deleteEstate = function (estateId) {
         var getData = angularService.deleteEstate(estateId);
         var currentIndex = _.findIndex($scope.estates, { id: estateId });
@@ -186,9 +187,11 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
     }
 });
 app.controller("dirDistrictsController", function ($scope, angularService, viewModel) {
+    estatesBaseController.call(this, $scope, angularService, viewModel);
+    $scope.prototype = Object.create(estatesBaseController.prototype);
     $scope.listCity = viewModel.listCity;
     $scope.districts = viewModel.districts;
-    $scope.selectedCity = [];
+    //$scope.selectedCity = [];
     $scope.record = { name: '' };
     $scope.delete = function (id) {
         angularService.dir_delete($scope.directory, id);
@@ -196,28 +199,19 @@ app.controller("dirDistrictsController", function ($scope, angularService, viewM
         $scope.districts.splice(currentIndex, 1);
     }
     $scope.setSelected = function (id, sList) {
-        if (_.contains($scope[sList], id)) {
-            $scope[sList] = _.without($scope[sList], id);
-        } else {
-            $scope[sList].push(id);
-        }
-        //$scope.search();
-        return false;
+        return $scope.prototype.setSelected(id, sList)
     }
 
     $scope.isChecked = function (id, sList) {
-        if (_.contains($scope[sList], id)) {
-            return 'glyphicon glyphicon-ok';
-        }
-        else {
-            return '';
-        }
+        return $scope.prototype.isChecked(id, sList)
     }
     $scope.uncheckAll = function (sSelected) {
-        $scope[sSelected] = [];
+        $scope.prototype.uncheckAll(sSelected)
+        //$scope[sSelected] = [];
     }
     $scope.checkAll = function (sList, sSelected) {
-        $scope[sSelected] = _.pluck($scope[sList], 'id');
+        $scope.prototype.checkAll(sList, sSelected)
+        //$scope[sSelected] = _.pluck($scope[sList], 'id');
     };
     $scope.update = function (id, name, city_id, index) {
         if (id == -1) {
