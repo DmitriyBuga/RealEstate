@@ -18,6 +18,27 @@ namespace RealEstate.Controllers
         {
             repository = repo;
         }
+        public ActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!IsFreeLogin(model.UserName))
+                {
+                    ModelState.AddModelError("", "Пользователь уже существует в базе");
+                    return View(model);
+                }
+                CreateNewUser(model.UserName, model.Password);
+                FormsAuthentication.SetAuthCookie(model.UserName, false);
+                return RedirectToAction("Table", "Estates");
+            }
+            else
+                return View(model);
+        }
         public ActionResult Login()
         {
             return View();
@@ -27,21 +48,10 @@ namespace RealEstate.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.NewUser)
-                {
-                    if (!IsFreeLogin(model.UserName))
-                    {
-                        ModelState.AddModelError("", "Пользователь уже существует в базе");
-                        return View(model);
-                    }
-                    
-                }
-                if (model.NewUser)
-                    CreateNewUser(model.UserName, model.Password);
-
                 if (ValidateUser(model.UserName, model.Password))
                 {
                     FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    
                     if (Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);

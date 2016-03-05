@@ -58,6 +58,7 @@ function estatesBaseController($scope, $filter, angularService, viewModel) {
         $scope[sSelected] = _.pluck($scope[sList], 'id');
     }
     estatesBaseController.prototype.setSelected = function (id, sList) {
+        debugger
         if (_.contains($scope[sList], id)) {
             $scope[sList] = _.without($scope[sList], id);
         } else {
@@ -185,6 +186,21 @@ app.controller("estatesTblController", function ($scope, $filter, angularService
         }, function () { }
         );
     }
+    $scope.setSelected = function (id, sList) {
+        return $scope.prototype.setSelected(id, sList)
+    }
+
+    $scope.isChecked = function (id, sList) {
+        return $scope.prototype.isChecked(id, sList)
+    }
+    $scope.uncheckAll = function (sSelected) {
+        $scope.prototype.uncheckAll(sSelected)
+        //$scope[sSelected] = [];
+    }
+    $scope.checkAll = function (sList, sSelected) {
+        $scope.prototype.checkAll(sList, sSelected)
+        //$scope[sSelected] = _.pluck($scope[sList], 'id');
+    };
 });
 app.controller("dirDistrictsController", function ($scope, angularService, viewModel) {
     estatesBaseController.call(this, $scope, angularService, viewModel);

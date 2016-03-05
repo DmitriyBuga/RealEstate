@@ -1045,6 +1045,7 @@
     <Compile Include="Models\Regions.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\Role.cs">
       <DependentUpon>RealEstateDbModel.tt</DependentUpon>
     </Compile>
@@ -1076,6 +1077,8 @@
     <Content Include="Views\Directories\Regions.cshtml" />
     <Content Include="Views\Estates\EditEstate.cshtml" />
     <Content Include="Views\Directories\Districts.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

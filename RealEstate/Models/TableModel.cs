@@ -14,5 +14,6 @@ namespace RealEstate.Models
         public List<CommonDirJSON> cities{ get; set; }
         public List<CommonDirJSON> floors { get; set; }
         public List<CommonDirJSON> rooms { get; set; }
+        public string userName { get; set; }
     }
 }

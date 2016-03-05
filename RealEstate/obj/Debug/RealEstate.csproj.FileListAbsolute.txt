@@ -181,7 +181,6 @@ D:\VSProjects\RealEstate\RealEstate\bin\ru\System.Web.Mvc.resources.dll
 D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
 D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.dll
 D:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.pdb
-D:\VSPrj\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
 C:\VSProjects\RealEstate\RealEstate\bin\Antlr3.Runtime.dll
 C:\VSProjects\RealEstate\RealEstate\bin\Newtonsoft.Json.dll
 C:\VSProjects\RealEstate\RealEstate\bin\System.Net.Http.Formatting.dll
@@ -196,3 +195,4 @@ C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.xml
 C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Http.WebHost.xml
 C:\VSProjects\RealEstate\RealEstate\bin\System.Web.Optimization.xml
 C:\VSProjects\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache
+D:\VSPrj\RealEstate\RealEstate\obj\Debug\RealEstate.csprojResolveAssemblyReference.cache

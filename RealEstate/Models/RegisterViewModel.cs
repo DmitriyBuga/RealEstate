@@ -6,7 +6,7 @@ using System.Web;
 
 namespace RealEstate.Models
 {
-    public class LogViewModel
+    public class RegisterViewModel
     {
         [Required]
         [Display(Name = "Логин")]
@@ -17,13 +17,9 @@ namespace RealEstate.Models
         [Display(Name = "Пароль")]
         public string Password { get; set; }
 
-        [Required]
-        [Display(Name = "Запомнить?")]
-        public bool RememberMe { get; set; }
-        /*
-        [Required]
-        [Display(Name = "Новый пользователь?")]
-        public bool NewUser { get; set; }
-        */
+        [DataType(DataType.Password)]
+        [Display(Name = "Подтверждение пароля")]
+        [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
+        public string ConfirmPassword { get; set; }
     }
 }

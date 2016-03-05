@@ -1,23 +1,23 @@
-﻿@model RealEstate.Models.LogViewModel
+﻿@model RealEstate.Models.RegisterViewModel
+
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "Регистрация";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Вход в систему</title>
+    <title>Регистрация нового пользователя</title>
 </head>
 <body>
     <div class="well-row">
-        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "well-row col-md-12" }))
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "well-row col-md-12" }))
         {
             <div class="row">
                 <div class="well row col-md-24">
                     <div style="width:100%" class="well-row col-md-24">
-                        <p class="h4" style="width:100%"><b>Вход в систему</b></p>
-                        <p>Введите свой логин и пароль для входа в систему</p>
+                        <p class="h4" style="width:100%"><b>Регистрация</b></p>
+                        <p>Введите свой логин и пароль для регистрации</p>
                     </div>
                     <div style="width:100%" class="well row col-md-24">
                         <div style="width:100%" class="well-row col-md-24">
@@ -30,9 +30,13 @@
                                 @Html.EditorFor(model => model.Password, new { @style = "width:100%" })
                                 @Html.ValidationMessageFor(model => model.Password)
                             </p>
-                                @Html.LabelFor(model => model.RememberMe, new { @style = "width:100%" })
-                                @Html.EditorFor(model => model.RememberMe, new { @style = "width:100%" })
-                            <p> 
+                            <p>
+                                @Html.LabelFor(model => model.ConfirmPassword, new { @style = "width:100%" })
+                                @Html.EditorFor(model => model.ConfirmPassword, new { @style = "width:100%" })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                            </p>
+                            
+                            <p>
                                 <input type="submit" value="Войти" />
                             </p>
                         </div>

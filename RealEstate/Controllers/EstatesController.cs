@@ -22,8 +22,13 @@ namespace RealEstate.Controllers
         
         public ActionResult Table()
         {
-            
+            //string userName;
+            //if (User.Identity.IsAuthenticated)
+                //userName = User.Identity.Name;
             CommonData commonData = new CommonData(repository);
+            string userName;
+            if (User.Identity.IsAuthenticated)
+                userName = User.Identity.Name;
             TableModel tableModel = new TableModel
             {
                 estates = CreateJSONEstate(repository.Estates),
