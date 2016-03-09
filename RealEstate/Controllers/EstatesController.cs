@@ -68,6 +68,7 @@ namespace RealEstate.Controllers
             return estatesJSON;
             //return Json(stat, JsonRequestBehavior.AllowGet);
         }
+        [Authorize]
         public JsonResult DeleteImage(string image, int Id)
         {
             System.IO.File.Delete(Server.MapPath("~" + image));
@@ -115,6 +116,7 @@ namespace RealEstate.Controllers
         }
         
         [HttpPost]
+        [Authorize]
         public ViewResult EditEstate(EstateModel modelEstate)
         {
 
@@ -147,6 +149,7 @@ namespace RealEstate.Controllers
             modelEstate.listCity = new SelectList(repository.Cities.OrderBy(x => x.id), "Id", "Name");
             return View(modelEstate);
         }
+        [UsersAuthorizeAttribute]
         public void DeleteEstate(int id)
         {
             repository.DeleteRecord<Estates>(repository.Estates.FirstOrDefault(x=>x.id == id));
@@ -172,11 +175,12 @@ namespace RealEstate.Controllers
             modelEstate.listCity = new SelectList(repository.Cities.OrderBy(x => x.id), "Id", "Name");
             return View(modelEstate);
         }
+        [Authorize]
         public JsonResult _UploadImage(string uploadFiles)
         {
             return Json(uploadFiles, JsonRequestBehavior.AllowGet);
         }
-        
+        [Authorize]
         public ActionResult UploadImage(HttpPostedFileBase upload, int Id)
         {
             if (upload != null)
@@ -186,6 +190,7 @@ namespace RealEstate.Controllers
             }
             return EditEstate(Id);
         }
+        [Authorize]
         public string FileUpload()
         {
             int iUploadedCnt = 0;

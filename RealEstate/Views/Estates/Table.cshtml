@@ -166,7 +166,7 @@
                     </td>
                     <td>
                         <a href="/Estates/EditEstate/{{estate.id}}" class="btn btn-sm btn-default">Edit</a>
-                        <span ng-click="deleteEstate(estate.id)" class="btn btn-sm btn-danger">Delete</span>
+                        <span ng-click="deleteEstate(estate.id)" class="btn btn-sm btn-danger" id="authUser">Delete</span>
                     </td>
                 </tr>
             </tbody>
@@ -179,13 +179,15 @@
         </div>
         <div class="well-row col-md-15">
         </div>
-        <div class="well-row col-md-1">
-            <a href="/Estates/EditEstate/" class="btn btn-primary">
+        <div class="well-row col-md-1"  >
+            <a href="/Estates/EditEstate/" class="btn btn-primary"   id="authUser">
                 <span class="glyphicon glyphicon-plus"></span>
             </a>
         </div>
     </div>
         
 </div>
+
+
 
 

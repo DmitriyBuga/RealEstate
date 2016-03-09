@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace RealEstate.Controllers
 {
+    [Authorize]
     public class DirectoriesController : Controller
     {
         
@@ -19,6 +20,7 @@ namespace RealEstate.Controllers
         {
             repository = repo;
         }
+        
         public ViewResult Districts()
         {
             CommonData commonData = new CommonData(repository);

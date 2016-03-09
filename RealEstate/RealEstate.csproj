@@ -1058,6 +1058,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\HomeAccRoleProvider.cs" />
+    <Compile Include="UsersAuthorizeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">

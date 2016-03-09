@@ -18,9 +18,10 @@ namespace RealEstate.Providers
                 try
                 {
                     // Получаем пользователя
-                    Users user = (from u in _db.Users
+                    /*Users user = (from u in _db.Users
                                  where u.login == login
-                                 select u).FirstOrDefault();
+                                 select u).FirstOrDefault();*/
+                    Users user = _db.Users.FirstOrDefault(x => x.login == login);
                     if (user != null)
                     {
                         // получаем роль

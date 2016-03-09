@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width" />
 
     <title>@ViewBag.Title</title>
+    <script>
+       var varGlobal = {
+           "user" :{
+               "name" : "@(User.Identity.Name)",
+               "roleGuest": "@(User.IsInRole("Guest"))",
+               "roleGuest" : "@(User.IsInRole("Guest"))",
+           }
+       };
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/angular")
     @Scripts.Render("~/bundles/underscore")
@@ -34,12 +43,20 @@
                     @Html.ActionLink("Справочник районов", "Districts", "Directories")
                 </li>
             }
-            
+
             @Html.Partial("_LoginPartial")
         </ul>
     </nav>
-    
+
 
     @RenderBody()
+    <script>
+        var userRole = '@(User.IsInRole("User") ? "true" : "false")';
+        var adminRole = '@(User.IsInRole("Admin") ? "true" : "false")';
+        jQuery(document).ready(function () {
+            setItemByRoles(userRole, adminRole);
+        })
+    </script>
 </body>
+
 </html>

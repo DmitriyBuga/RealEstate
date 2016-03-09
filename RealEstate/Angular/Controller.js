@@ -35,6 +35,24 @@ function initMenu() {
 jQuery(document).ready(function () {
     initMenu();
 });
+function setItemByRoles(userRole, adminRole) {
+    if(userRole == "true")
+    {
+        $('[id=authAdmin]').addClass('disabled');
+        $('[id=authUser]').RemoveClass('disabled');
+    }
+    else
+        if (adminRole == "true")
+        {
+            $('[id=authUser]').RemoveClass('disabled');
+            $('[id=authAdmin]').RemoveClass('disabled');
+        }
+    else//if (userRole == "false" && adminRole == "false")
+    {
+        $('[id=authAdmin]').addClass('disabled');
+        $('[id=authUser]').addClass('disabled');
+    }
+}
 function estatesBaseController($scope, $filter, angularService, viewModel) {
     $scope.selectedUser = [];
     $scope.selectedRegion = [];
