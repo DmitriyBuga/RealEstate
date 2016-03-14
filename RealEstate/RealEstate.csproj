@@ -150,6 +150,7 @@
     <Content Include="Angular\Filter.js" />
     <Content Include="Angular\Module.js" />
     <Content Include="Angular\Service.js" />
+    <Content Include="Angular\tpls\modal-photo.html" />
     <Content Include="Angular\tpls\tplCmbFilter.html" />
     <Content Include="Bootstrap\css\styles.css" />
     <Content Include="Bootstrap\css\variables.css" />

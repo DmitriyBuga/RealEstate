@@ -4,133 +4,144 @@
 }
 <html>
 <head>
-    <style>
-        .carousel-inner > .item > img,
-        .carousel-inner > .item > a > img {
-            width: 40%;
-            margin: auto;
-        }
-    </style>
+    
 </head>
-<body>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
     @using (Html.BeginForm("EditEstate", "Estates", FormMethod.Post, new { @class = "well row form-horizontal col-md-24" }))
     {
-        <div class="row">
-            <div class="well row col-md-24"> 
-                <div class="well-row col-md-8">
-                    @Html.HiddenFor(model => model.estate.id)
-                    <label style="width:100px;">Манагер</label>
-                    @Html.DropDownListFor(model => model.estate.Users.id, Model.listUser as SelectList, new { style = "width:200px" })
-                    @Html.ValidationMessageFor(model => model.estate.Users.id, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">Область</label>
-                    @Html.DropDownListFor(model => model.estate.Regions.id, Model.listRegion as SelectList, new { style = "width:200px" })
-                    @Html.ValidationMessageFor(model => model.estate.Regions.id, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">Город</label>
-                    @Html.DropDownListFor(model => model.estate.Cities.id, Model.listCity as SelectList, new { style = "width:200px" })
-                    @Html.ValidationMessageFor(model => model.estate.Cities.id, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">Район</label>
-                    @Html.EditorFor(model => model.estate.district)
-                    @Html.ValidationMessageFor(model => model.estate.district, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">Улица</label>
-                    @Html.EditorFor(model => model.estate.street)
-                    @Html.ValidationMessageFor(model => model.estate.street, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">№ дома</label>
-                    @Html.EditorFor(model => model.estate.building)
-                    @Html.ValidationMessageFor(model => model.estate.building, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:100px;">№ квартиры</label>
-                    @Html.EditorFor(model => model.estate.apt)
-                    @Html.ValidationMessageFor(model => model.estate.apt, "", new { @class = "text-danger" })
-                    <br>
-                </div>
-                <div class="well-row col-md-7">
-                    <label style="width:150px;">Общая площадь</label>
-                    @Html.EditorFor(model => model.estate.square)
-                    @Html.ValidationMessageFor(model => model.estate.square, "", new { @class = "text-danger" })
-                    <br />
-                    <label style="width:150px;">Цена</label>
-                    @Html.EditorFor(model => model.estate.price)
-                    @Html.ValidationMessageFor(model => model.estate.price, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:150px;">Этаж</label>
-                    @Html.EditorFor(model => model.estate.floor)
-                    @Html.ValidationMessageFor(model => model.estate.floor, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:150px;">Всего этажей</label>
-                    @Html.EditorFor(model => model.estate.floors)
-                    @Html.ValidationMessageFor(model => model.estate.floors, "", new { @class = "text-danger" })
-                    <br>
-                    <label style="width:150px;">Кол-во комнат</label>
-                    @Html.EditorFor(model => model.estate.rooms)
-                    @Html.ValidationMessageFor(model => model.estate.rooms, "", new { @class = "text-danger" })
-                    <br>
-                </div>
-                <div class="well-row col-md-9">
-                    <label style="width:80px;">Описание</label>
-                    @Html.TextAreaFor(model => model.estate.descr, 7, 48, null)
-                    @Html.ValidationMessageFor(model => model.estate.descr, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="well-row col-md-24" style="width:100%">
-                <div ng-app="appRealEstate" ng-controller="estateEditController">
+        <div class="row" style="margin-left:10px;">
+            <div class="well-row col-md-24"> 
+                <div ng-app="appRealEstate" ng-controller="estateEditController" >
                     <span ng-init="setCurrentEstateId(@Model.estate.id)"></span>
                     <span ng-init="getImageList()"></span>
-                    <div id="dynamiccontentcarousel" class="carousel slide" data-interval="2000">
+                    <div class="well-row col-md-8">
+                        <div class="nav nav-list pre-scrollable">
+                            <ul ng-repeat="slide in slides">
+                                <li class="navbar-inverse">
+                                    <a class="btn btn-danger" ng-click="deleteImage(slide)" href="#" role="button">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        <span class="sr-only">delete</span>
+                                    </a>
+                                    <a href="" data-ng-class="{active : $first}" ng-click="openPhoto(slide)">
+                                        <img data-ng-src="{{slide}}" style="max-height:150px;min-height:150px" />
+                                    </a>
 
-                        <ol class="carousel-indicators">
-                            <li style="align-items:center" data-target="#dynamiccontentcarousel" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" data-slide-to="{{$index}}"></li>
-                        </ol>
-
-                        <div class="carousel-inner" role="listbox">
-                            <div class="item" data-ng-repeat="slide in slides" data-ng-class="{active : $first}" width="200">
-                                <img data-ng-src="{{slide}}" alt=" carousel {{$index}}" style="max-height:400px;min-height:400px" />
-                            </div>
-                        </div>
-                        <!--
-                        <div class="span6">
-                            Interval, in milliseconds:
-                            <input type="number" data-ng-model="myInterval">
-                            <br />
-                            Enter a negative number to stop the interval.
-                        </div>
-                        /!-->
-                        <div class="m-carousel-controls m-carousel-pagination well row col-md-24">
-                        
-                                <a class="m-carousel-controls btn btn-danger" ng-click="deleteImage()" href="#" role="button" data-slide="next" style="align-items:center">
-                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    <span class="sr-only">delete</span>
-                                </a>
-                                <a class="m-carousel-control btn btn-default" href="#dynamiccontentcarousel" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="m-carousel-control btn btn-default" href="#dynamiccontentcarousel" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                        
-                        
-                        </div>
-                        <div class="well row col-md-6">
-                            <input onchange="angular.element(this).scope().file_changed(this)"
-                                   type="file" accept="image/*">
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                
+                    <div class="well-row col-md-16">
+                        <div class="well-row col-md-12">
+                            @Html.HiddenFor(model => model.estate.id)
+                            <label style="width:100px;">Манагер</label>
+                            @Html.DropDownListFor(model => model.estate.Users.id, Model.listUser as SelectList, new { style = "width:200px" })
+                            @Html.ValidationMessageFor(model => model.estate.Users.id, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">Область</label>
+                            @Html.DropDownListFor(model => model.estate.Regions.id, Model.listRegion as SelectList, new { style = "width:200px" })
+                            @Html.ValidationMessageFor(model => model.estate.Regions.id, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">Город</label>
+                            @Html.DropDownListFor(model => model.estate.Cities.id, Model.listCity as SelectList, new { style = "width:200px" })
+                            @Html.ValidationMessageFor(model => model.estate.Cities.id, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">Район</label>
+                            @Html.EditorFor(model => model.estate.district)
+                            @Html.ValidationMessageFor(model => model.estate.district, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">Улица</label>
+                            @Html.EditorFor(model => model.estate.street)
+                            @Html.ValidationMessageFor(model => model.estate.street, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">№ дома</label>
+                            @Html.EditorFor(model => model.estate.building)
+                            @Html.ValidationMessageFor(model => model.estate.building, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:100px;">№ квартиры</label>
+                            @Html.EditorFor(model => model.estate.apt)
+                            @Html.ValidationMessageFor(model => model.estate.apt, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="well-row col-md-12">
+                            <label style="width:150px;">Общая площадь</label>
+                            @Html.EditorFor(model => model.estate.square)
+                            @Html.ValidationMessageFor(model => model.estate.square, "", new { @class = "text-danger" })
+                            <br />
+                            <label style="width:150px;">Цена</label>
+                            @Html.EditorFor(model => model.estate.price)
+                            @Html.ValidationMessageFor(model => model.estate.price, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:150px;">Этаж</label>
+                            @Html.EditorFor(model => model.estate.floor)
+                            @Html.ValidationMessageFor(model => model.estate.floor, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:150px;">Всего этажей</label>
+                            @Html.EditorFor(model => model.estate.floors)
+                            @Html.ValidationMessageFor(model => model.estate.floors, "", new { @class = "text-danger" })
+                            <br>
+                            <label style="width:150px;">Кол-во комнат</label>
+                            @Html.EditorFor(model => model.estate.rooms)
+                            @Html.ValidationMessageFor(model => model.estate.rooms, "", new { @class = "text-danger" })
+                            <br>
+                        </div>
+                        <div class="well-row col-md-16">
+                            <label style="width:100px;">Описание</label>
+                            @Html.TextAreaFor(model => model.estate.descr, 8, 128, null)
+                            @Html.ValidationMessageFor(model => model.estate.descr, "", new { @class = "text-danger" })
+                        </div>
+                        
+                    </div>
+                    <br />
+                    <div class="well row col-md-24" style="margin-top:20px;margin-bottom:20px">
+                        @if (Model.estate.id > 0)
+                        {
+
+                            <input onchange="angular.element(this).scope().file_changed(this)"
+                                   type="file" accept="image/*" id="authUser">
+
+                        }
+                    </div>
                 </div>
+
+                
             </div>
-            <div class="well-row" style="width:100%">
+                
+            
+
+                                
+
+                    
+                <script type="text/ng-template" id="modalPhoto.html">
+                    <div class="modal-header">
+                    </div>
+                    <div class="modal-body">
+                        <img class="img" ng-src="{{slide}}">
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" ng-click="ok()">OK</button>
+
+                        <button class="btn btn-default" ng-click="prev()">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default" ng-click="next()">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </button>
+                        
+                    </div>
+                </script>   
+            
+            <div class="well-row col-md-8  col-offset-4">
                 @Html.Hidden("Id", @Model.estate.id)
-                <input type="submit" value="Сохранить" />
+                <input type="submit" value="Сохранить" id="authUser"/>
             </div>
         </div>
     }
-
+    
+    <script>
+        // Get the modal
+        
+       
+    </script>
 </body>
 
 </html>

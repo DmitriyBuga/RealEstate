@@ -116,8 +116,8 @@ namespace RealEstate.Controllers
         }
         
         [HttpPost]
-        [Authorize]
-        public ViewResult EditEstate(EstateModel modelEstate)
+        [Authorize(Roles = "User, Admin")]
+        public ActionResult EditEstate(EstateModel modelEstate)
         {
 
             modelEstate.estate.user_id = modelEstate.estate.Users.id;
@@ -131,9 +131,21 @@ namespace RealEstate.Controllers
                 Estates dbEntry = repository.Estates.FirstOrDefault(x => x.id == modelEstate.estate.id);
                 if (dbEntry != null)
                 {
-                    //dbEntry.price = modelEstate.estate.price;
-                    //dbEntry.apt = modelEstate.estate.apt;
-                    dbEntry = modelEstate.estate;
+                    dbEntry.price = modelEstate.estate.price;
+                    dbEntry.apt = modelEstate.estate.apt;
+                    dbEntry.building = modelEstate.estate.building;
+                    dbEntry.city_id = modelEstate.estate.city_id;
+                    dbEntry.descr = modelEstate.estate.descr;
+                    dbEntry.district_id = modelEstate.estate.district_id;
+                    dbEntry.floor = modelEstate.estate.floor;
+                    dbEntry.floors = modelEstate.estate.floors;
+                    dbEntry.manager_id = modelEstate.estate.manager_id;
+                    dbEntry.region_id = modelEstate.estate.region_id;
+                    dbEntry.rooms = modelEstate.estate.rooms;
+                    dbEntry.square = modelEstate.estate.square;
+                    dbEntry.street = modelEstate.estate.street;
+                    dbEntry.user_id = modelEstate.estate.user_id;
+                    //dbEntry = modelEstate.estate;
                     repository.UpdateRecord<Estates>(modelEstate.estate);
                 }
                 else
@@ -142,7 +154,9 @@ namespace RealEstate.Controllers
                     modelEstate.estate.Regions = repository.Regions.FirstOrDefault(x => x.id == modelEstate.estate.region_id);
                     modelEstate.estate.Cities = repository.Cities.FirstOrDefault(x => x.id == modelEstate.estate.city_id);
                     repository.CreateRecord<Estates>(modelEstate.estate);
+                    
                 }
+                return RedirectToAction("Table");
             }
             modelEstate.listUser = new SelectList(repository.Users.OrderBy(x => x.id), "Id", "Name");
             modelEstate.listRegion = new SelectList(repository.Regions.OrderBy(x => x.id), "Id", "Name");

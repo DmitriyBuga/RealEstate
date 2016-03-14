@@ -11,7 +11,10 @@ namespace RealEstate
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
-                        "~/Scripts/angular.js"));
+                        "~/Scripts/angular.js").Include(
+                        "~/Scripts/angular-ui/ui-bootstrap.js").Include(
+                        "~/Scripts/angular-ui/ui-bootstrap-tpls.js")
+                        );
             bundles.Add(new ScriptBundle("~/bundles/underscore").Include(
                 "~/Scripts/underscore.js"));
             bundles.Add(new ScriptBundle("~/bundles/RealEstateScripts").Include(

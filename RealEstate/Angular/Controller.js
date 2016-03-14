@@ -39,18 +39,22 @@ function setItemByRoles(userRole, adminRole) {
     if(userRole == "true")
     {
         $('[id=authAdmin]').addClass('disabled');
-        $('[id=authUser]').RemoveClass('disabled');
+        $('[id=authUser]').removeClass('disabled');
+        $('[id=authUser]').filter('form input[type=submit]').removeAttr('disabled');
     }
     else
         if (adminRole == "true")
         {
-            $('[id=authUser]').RemoveClass('disabled');
-            $('[id=authAdmin]').RemoveClass('disabled');
+            $('[id=authUser]').removeClass('disabled');
+            $('[id=authAdmin]').removeClass('disabled');
+            $('form input[type=submit]').removeAttr('disabled');
         }
     else//if (userRole == "false" && adminRole == "false")
     {
         $('[id=authAdmin]').addClass('disabled');
         $('[id=authUser]').addClass('disabled');
+        //$('[id=authUser]').$('form input[type=submit]').attr('disabled', true);
+        $('[id=authUser]').filter('form input[type=submit]').attr('disabled', true);
     }
 }
 function estatesBaseController($scope, $filter, angularService, viewModel) {
@@ -76,7 +80,7 @@ function estatesBaseController($scope, $filter, angularService, viewModel) {
         $scope[sSelected] = _.pluck($scope[sList], 'id');
     }
     estatesBaseController.prototype.setSelected = function (id, sList) {
-        debugger
+        
         if (_.contains($scope[sList], id)) {
             $scope[sList] = _.without($scope[sList], id);
         } else {
@@ -295,7 +299,44 @@ app.controller("dirController", function ($scope, angularService, viewModel) {
         });
     }
 });
-app.controller("estateEditController", function ($scope, angularService) {
+app.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, slide, slides) {
+    
+    $scope.item = 0;
+    $scope.slide = slide;
+    $scope.slides = slides
+    $scope.item = _.indexOf($scope.slides, $scope.slide);
+    
+    /*
+    $scope.selected = {
+        item: $scope.items[0]
+    };
+    */
+    $scope.next = function () {
+        
+        
+        if ($scope.item < slides.length - 1)
+        {
+            $scope.item++;
+            $scope.slide = slides[$scope.item];
+        }
+    }
+    $scope.prev = function () {
+        
+       
+        if ($scope.item > 0) {
+            $scope.slide = slides[--$scope.item];
+        }
+    }
+    $scope.ok = function () {
+        $uibModalInstance.dismiss('cancel');
+        //$uibModalInstance.close($scope.selected.item);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+app.controller("estateEditController", function ($scope, $uibModal, angularService) {
     $scope.myInterval = 500;
     $scope.uploadFiles = [];
     $scope.attachment;
@@ -305,17 +346,18 @@ app.controller("estateEditController", function ($scope, angularService) {
         $scope.estateId = estateId;
     }
     $scope.getSlides = function () {
+        
         var getData = angularService.getSlides($scope.estateId);
         getData.then(function (images) {
             $scope.slides = images.data;
         });
     }
-    $scope.deleteImage = function () {
-        var currentIndex = $('div.active').index();
-        //debugger
+    $scope.deleteImage = function (slide) {
+        var currentIndex = _.indexOf($scope.slides, slide);//$('div.active').index();
+        
         if (currentIndex >= 0)
         {
-            var image = $scope.slides[currentIndex]
+            var image = slide;//$scope.slides[currentIndex]
             var estateId = $scope.estateId;
             angularService.deleteImage(image, estateId);
             $scope.slides.splice(currentIndex, 1);
@@ -325,6 +367,7 @@ app.controller("estateEditController", function ($scope, angularService) {
         return "";
     }
     $scope.getImageList = function () {
+        
         var getData = angularService.getImageList($scope.estateId);
         getData.then(function (images) {
             $scope.slides = images.data;
@@ -334,11 +377,48 @@ app.controller("estateEditController", function ($scope, angularService) {
         return "";
     }
     
-    $scope.file_changed = function (element) {
+    $scope.openPhoto = function (slide) {
+        $uibModal.open({
+            templateUrl: 'modalPhoto.html',
+            controller: 'ModalInstanceCtrl',
+            size: 'lg',
+            resolve: {
+                slide: function(){
+                    return slide;
+                },
+                slides: function () {
+                    return $scope.slides;
+                }
+            }
+        });
+    }
+/*
+        var modal = document.getElementById('myModal');
 
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    }*/
+    $scope.file_changed = function (element) {
+        
         $scope.$apply(function (scope) {
             var data = new FormData();
-            //debugger
+            
             for (var i in element.files) {
                 data.append("uploadedFile", element.files[i]);
             }
@@ -372,7 +452,7 @@ app.controller("estateEditController", function ($scope, angularService) {
         //$scope.slides.pop(element.files[0])
         
     };
-    
+  
 
     // CONFIRMATION.
     function transferComplete(e) {

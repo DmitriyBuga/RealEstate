@@ -42,6 +42,12 @@
                 <li>
                     @Html.ActionLink("Справочник районов", "Districts", "Directories")
                 </li>
+                if (@User.IsInRole("Admin"))
+                {
+                    <li>
+                        @Html.ActionLink("Пользователи", "Districts", "Directories")
+                    </li>
+                }
             }
 
             @Html.Partial("_LoginPartial")
